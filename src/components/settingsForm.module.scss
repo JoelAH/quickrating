@@ -1,0 +1,180 @@
+.colorChosen {
+    border: 1px solid #e0e0e0;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+}
+
+.boxControl {
+    margin-bottom: 60px;
+
+    h3 {
+        font-size: 22px;
+        font-weight: bold;
+        color: #222428;
+        margin-bottom: 16px;
+
+        sup {
+            color: #eb445a;
+        }
+    }
+
+    // Enhanced TextField styling
+    :global {
+        .MuiTextField-root {
+            .MuiOutlinedInput-root {
+                border-radius: 12px;
+                font-size: 16px;
+
+                input {
+                    height: 56px;
+                    padding: 0 16px;
+                    box-sizing: border-box;
+                }
+
+                textarea {
+                    font-size: 16px;
+                }
+
+                fieldset {
+                    border-color: #e0e0e0;
+                }
+
+                &:hover fieldset {
+                    border-color: #999;
+                }
+
+                &.Mui-focused fieldset {
+                    border-width: 2px;
+                    border-color: #FBBC04;
+                }
+            }
+
+            .MuiInputLabel-root {
+                font-size: 16px;
+            }
+        }
+    }
+}
+
+.colorPickerContainer {
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 16px;
+    background-color: #f9f9f9;
+}
+
+.croppedImage {
+    border: 1px solid #e0e0e0;
+    border-radius: 100%;
+    max-width: 250px;
+    max-height: 250px;
+}
+
+.cropperBox {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    max-height: 300px;
+    min-height: 300px;
+    width: 100%;
+}
+
+.errorText {
+    color: #eb445a;
+    font-size: 14px;
+}
+
+// Submit button enhancement
+.submitButton {
+    width: 100%;
+    height: 56px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #FBBC04;
+    border-radius: 8px;
+    text-transform: none;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+        background-color: #d18800;
+    }
+}
+
+// Tablet responsive styles
+@media only screen and (max-width: 1024px) and (min-width: 769px) {
+    .boxControl {
+        margin-bottom: 50px;
+        
+        h3 {
+            font-size: 20px;
+        }
+    }
+    
+    .colorChosen {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .croppedImage {
+        max-width: 220px;
+        max-height: 220px;
+    }
+}
+
+// Mobile responsive styles
+@media only screen and (max-width: 768px) {
+    .boxControl {
+        margin-bottom: 40px;
+        
+        h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+        
+        :global {
+            .MuiTextField-root {
+                .MuiOutlinedInput-root {
+                    font-size: 15px;
+                    
+                    input {
+                        height: 48px;
+                        padding: 0 14px;
+                    }
+                    
+                    textarea {
+                        font-size: 15px;
+                    }
+                }
+                
+                .MuiInputLabel-root {
+                    font-size: 15px;
+                }
+            }
+        }
+    }
+    
+    .colorChosen {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .colorPickerContainer {
+        padding: 12px;
+    }
+    
+    .croppedImage {
+        max-width: 180px;
+        max-height: 180px;
+    }
+    
+    .cropperBox {
+        max-height: 250px;
+        min-height: 250px;
+    }
+    
+    .submitButton {
+        height: 48px;
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,159 @@
+.articlePage {
+    min-height: 100vh;
+    background: #ffffff;
+    padding: 40px 0 80px;
+}
+
+.backButton {
+    margin-bottom: 32px;
+    color: #666;
+    text-transform: none;
+    font-size: 0.95rem;
+    
+    &:hover {
+        background-color: #f5f5f5;
+    }
+}
+
+.article {
+    background: white;
+}
+
+.articleHeader {
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.dateChip {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    font-weight: 500;
+    margin-bottom: 24px;
+}
+
+.articleTitle {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #1a1a1a;
+    margin-bottom: 16px;
+    
+    @media (max-width: 768px) {
+        font-size: 1.875rem;
+    }
+}
+
+.articleSubtitle {
+    font-size: 1.25rem;
+    color: #666;
+    line-height: 1.6;
+    
+    @media (max-width: 768px) {
+        font-size: 1.125rem;
+    }
+}
+
+.articleContent {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: #333;
+    
+    p {
+        margin-bottom: 24px;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 40px 0 20px;
+        color: #1a1a1a;
+    }
+    
+    ul, ol {
+        margin: 24px 0;
+        padding-left: 24px;
+        
+        li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+    }
+    
+    blockquote {
+        border-left: 4px solid #1976d2;
+        padding: 16px 24px;
+        margin: 32px 0;
+        background: #f8f9fa;
+        font-style: italic;
+        
+        p {
+            margin-bottom: 8px;
+            
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+    
+    a {
+        color: #1976d2;
+        text-decoration: none;
+        font-weight: 500;
+        
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    
+    strong {
+        font-weight: 600;
+        color: #1a1a1a;
+    }
+}
+
+.articleFooter {
+    margin-top: 64px;
+    padding-top: 48px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.cta {
+    text-align: center;
+    padding: 48px 32px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
+    color: white;
+    
+    h3 {
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+    }
+    
+    p {
+        font-size: 1.125rem;
+        margin-bottom: 24px;
+        opacity: 0.95;
+    }
+}
+
+.ctaButton {
+    background: white;
+    color: #667eea;
+    font-weight: 600;
+    padding: 12px 32px;
+    font-size: 1rem;
+    text-transform: none;
+    
+    &:hover {
+        background: #f5f5f5;
+    }
+}
+
+.notFound {
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}

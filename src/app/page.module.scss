@@ -1,0 +1,850 @@
+// Hero Section Styles
+.heroSection {
+    width: 100%;
+    max-width: 100vw;
+    background: linear-gradient(135deg, #FBBC04 0%, #ffc351 100%);
+    padding: 80px 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+.heroContent {
+    max-width: 1200px;
+    text-align: center;
+    width: 100%;
+}
+
+.heroHeadline {
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #222428;
+    margin: 0 0 24px 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.heroSubheadline {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #333;
+    margin: 0 0 40px 0;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.heroButtons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.heroPrimaryButton {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    height: 48px !important;
+    padding: 0 24px !important;
+    border-radius: 8px !important;
+    background-color: #222428 !important;
+    color: white !important;
+    text-transform: none !important;
+    
+    &:hover {
+        background-color: #333 !important;
+    }
+}
+
+.heroSecondaryButton {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    height: 48px !important;
+    padding: 0 24px !important;
+    border-radius: 8px !important;
+    border: 2px solid #222428 !important;
+    color: #222428 !important;
+    text-transform: none !important;
+    
+    &:hover {
+        background-color: rgba(34, 36, 40, 0.05) !important;
+        border: 2px solid #222428 !important;
+    }
+}
+
+// Tablet responsive styles for hero
+@media only screen and (max-width: 1024px) and (min-width: 769px) {
+    .heroSection {
+        padding: 60px 32px;
+    }
+    
+    .heroHeadline {
+        font-size: 48px;
+    }
+    
+    .heroSubheadline {
+        font-size: 22px;
+    }
+}
+
+// Mobile responsive styles for hero
+@media only screen and (max-width: 768px) {
+    .heroSection {
+        padding: 40px 20px;
+    }
+    
+    .heroContent {
+        padding: 0 4px;
+    }
+    
+    .heroHeadline {
+        font-size: 32px;
+    }
+    
+    .heroSubheadline {
+        font-size: 18px;
+        margin-bottom: 32px;
+    }
+    
+    .heroButtons {
+        flex-direction: column;
+        width: 100%;
+        
+        a {
+            width: 100%;
+        }
+        
+        button {
+            width: 100%;
+        }
+    }
+    
+    .brand {
+        display: none;
+    }
+}
+
+// Problem Section Styles
+.problemSection {
+    width: 100%;
+    background: white;
+    border-top: 1px solid #e0e0e0;
+    padding: 60px 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.problemContent {
+    max-width: 800px;
+    text-align: center;
+    width: 100%;
+}
+
+.problemStatement {
+    font-size: 20px;
+    line-height: 1.6;
+    color: #555;
+    margin: 0 0 24px 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+// Guide Section Styles
+.guideSection {
+    width: 100%;
+    background: #f9f9f9;
+    padding: 80px 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.guideContent {
+    max-width: 900px;
+    text-align: center;
+    width: 100%;
+}
+
+.guideText {
+    font-size: 22px;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+// Plan Section Styles (How It Works)
+.planSection {
+    width: 100%;
+    background: white;
+    padding: 100px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.planHeading {
+    font-size: 42px;
+    font-weight: 700;
+    color: #222428;
+    text-align: center;
+    margin: 0 0 60px 0;
+}
+
+.planGrid {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.planStep {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.planIconContainer {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #FBBC04;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.planStepNumber {
+    font-size: 32px;
+    font-weight: 700;
+    color: white;
+}
+
+.planStepTitle {
+    font-size: 24px;
+    font-weight: 700;
+    color: #222428;
+    margin: 0 0 16px 0;
+}
+
+.planStepDescription {
+    font-size: 18px;
+    line-height: 1.5;
+    color: #555;
+    margin: 0;
+}
+
+// Success Section Styles
+.successSection {
+    width: 100%;
+    background: linear-gradient(180deg, #fffbf0 0%, white 100%);
+    padding: 80px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.successHeading {
+    font-size: 38px;
+    font-weight: 700;
+    color: #222428;
+    text-align: center;
+    margin: 0 0 60px 0;
+}
+
+.successGrid {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.successCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: white;
+    padding: 32px 24px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    height: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    }
+}
+
+.successIcon {
+    font-size: 48px !important;
+    color: #34C759;
+    margin-bottom: 16px;
+}
+
+.successText {
+    font-size: 20px;
+    line-height: 1.4;
+    color: #333;
+    margin: 0;
+}
+
+// Failure Section Styles
+.failureSection {
+    width: 100%;
+    background: white;
+    padding: 60px 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.failureContent {
+    max-width: 800px;
+    width: 100%;
+    border-left: 4px solid #eb445a;
+    padding-left: 32px;
+}
+
+.failureText {
+    font-size: 22px;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+}
+
+// Transformation Section Styles
+.transformationSection {
+    width: 100%;
+    background: white;
+    padding: 100px 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.transformationGrid {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.transformationBefore,
+.transformationAfter {
+    padding: 40px 32px;
+    border-radius: 12px;
+    height: 100%;
+}
+
+.transformationBefore {
+    background-color: #fff5f5;
+    border: 1px solid #fdd;
+}
+
+.transformationAfter {
+    background-color: #f0fff4;
+    border: 1px solid #d4f4dd;
+}
+
+.transformationHeading {
+    font-size: 28px;
+    font-weight: 700;
+    color: #222428;
+    margin: 0 0 32px 0;
+    text-align: center;
+}
+
+.transformationList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.transformationItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    font-size: 18px;
+    line-height: 1.5;
+    color: #333;
+}
+
+.transformationIconBefore {
+    font-size: 24px;
+    font-weight: 700;
+    color: #eb445a;
+    flex-shrink: 0;
+}
+
+.transformationIconAfter {
+    font-size: 24px;
+    font-weight: 700;
+    color: #34C759;
+    flex-shrink: 0;
+}
+
+// Tablet responsive styles for sections
+@media only screen and (max-width: 1024px) and (min-width: 769px) {
+    .problemSection {
+        padding: 50px 32px;
+    }
+    
+    .guideSection {
+        padding: 70px 32px;
+    }
+    
+    .guideText {
+        font-size: 20px;
+    }
+    
+    .planSection {
+        padding: 80px 32px;
+    }
+    
+    .planHeading {
+        font-size: 38px;
+        margin-bottom: 50px;
+    }
+    
+    .planStepTitle {
+        font-size: 22px;
+    }
+    
+    .successSection {
+        padding: 70px 32px;
+    }
+    
+    .successHeading {
+        font-size: 34px;
+        margin-bottom: 50px;
+    }
+    
+    .failureSection {
+        padding: 50px 32px;
+    }
+    
+    .failureText {
+        font-size: 20px;
+    }
+    
+    .transformationSection {
+        padding: 80px 32px;
+    }
+    
+    .transformationHeading {
+        font-size: 26px;
+    }
+}
+
+// Mobile responsive styles for Problem, Guide, Plan, Success, Failure, and Transformation sections
+@media only screen and (max-width: 768px) {
+    .problemSection {
+        padding: 40px 20px;
+    }
+    
+    .problemContent {
+        padding: 0 4px;
+    }
+    
+    .problemStatement {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+    
+    .guideSection {
+        padding: 60px 20px;
+    }
+    
+    .guideContent {
+        padding: 0 4px;
+    }
+    
+    .guideText {
+        font-size: 18px;
+    }
+    
+    .planSection {
+        padding: 60px 20px;
+    }
+    
+    .planGrid {
+        padding: 0 4px;
+    }
+    
+    .planHeading {
+        font-size: 32px;
+        margin-bottom: 40px;
+    }
+    
+    .planIconContainer {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .planStepNumber {
+        font-size: 28px;
+    }
+    
+    .planStepTitle {
+        font-size: 20px;
+    }
+    
+    .planStepDescription {
+        font-size: 16px;
+    }
+    
+    .successSection {
+        padding: 60px 20px;
+    }
+    
+    .successGrid {
+        padding: 0 4px;
+    }
+    
+    .successHeading {
+        font-size: 28px;
+        margin-bottom: 40px;
+    }
+    
+    .successCard {
+        padding: 24px 16px;
+    }
+    
+    .successIcon {
+        font-size: 40px !important;
+    }
+    
+    .successText {
+        font-size: 18px;
+    }
+    
+    .failureSection {
+        padding: 40px 20px;
+    }
+    
+    .failureContent {
+        padding-left: 16px;
+        padding-right: 4px;
+        border-left-width: 3px;
+    }
+    
+    .failureText {
+        font-size: 18px;
+    }
+    
+    .transformationSection {
+        padding: 60px 20px;
+    }
+    
+    .transformationGrid {
+        padding: 0 4px;
+    }
+    
+    .transformationBefore,
+    .transformationAfter {
+        padding: 24px 16px;
+        margin-bottom: 24px;
+    }
+    
+    .transformationHeading {
+        font-size: 24px;
+        margin-bottom: 24px;
+    }
+    
+    .transformationItem {
+        font-size: 16px;
+        gap: 12px;
+    }
+    
+    .transformationIconBefore,
+    .transformationIconAfter {
+        font-size: 20px;
+    }
+}
+
+// Legacy styles (keeping for other sections)
+.headline {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 30px 0;
+    &.main {
+        margin: 0 auto;
+        width: 90%;
+    }
+}
+.subHeadline {
+    font-size: 22px;
+    font-weight: 400;
+    &.sub {
+      margin: 30px 0;
+    }
+    .highlight {
+      color: #d18800;
+      font-weight: 700;
+    }
+}
+// Tablet responsive styles for legacy sections
+@media only screen and (max-width: 1024px) and (min-width: 769px) {
+    .headline {
+        font-size: 40px;
+        
+        &.main {
+            width: 85%;
+        }
+    }
+    
+    .subHeadline {
+        font-size: 20px;
+    }
+    
+    .pricingHeader {
+        font-size: 38px;
+        margin: 70px 0 35px 0;
+    }
+    
+    .tribox {
+        width: 80%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .headline {
+        font-size: 32px;
+    }
+}
+
+.tribox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background: #ffe59e;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 0 auto;
+    width: 70%;
+    max-width: 350px;
+    .sect {
+        margin-bottom: 10px;
+    }
+}
+
+.extraInfo {
+    font-size: 22px;
+}
+.secondaryAction {
+    margin-top: 50px;
+    width: 90%;
+    max-width: 800px;
+    margin: 50px auto 0;
+    text-align: center;
+    padding: 0 24px;
+}
+.pricingHeader {
+    margin: 80px 0 40px 0;
+    text-align: center;
+    font-weight: bold;
+    font-size: 42px;
+  }
+
+  .comingSoon {
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    margin: 30px 0 50px 0;
+  }
+  .pricingGrid {
+    margin-bottom: 50px;
+    .pricingRow {
+      justify-content: center;
+    }
+    .pricing {
+      display: flex;
+      flex-direction: column;
+      border: 2px solid #e0e0e0;
+      border-radius: 16px;
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 32px 24px;
+      height: 600px;
+      background: white;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      
+      &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      }
+      
+      &.standard {
+        border: 2px solid #FBBC04;
+        box-shadow: 0 4px 16px rgba(251, 188, 4, 0.2);
+        
+        &:hover {
+          box-shadow: 0 8px 32px rgba(251, 188, 4, 0.3);
+        }
+      }
+      
+      .level {
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .price {
+        font-size: 48px;
+        font-weight: bold;
+        margin: 20px 0;
+        span {
+          font-size: 28px;
+        }
+      }
+      .intro {
+        margin-bottom: 10px;
+      }
+      .list {
+        font-size: 18px;
+        font-weight: 400;
+        .listing {
+          margin: 15px 0;
+          display: flex;
+          align-items: center;
+        }
+      }
+      .startedDiv {
+        margin-top: auto;
+        text-align: center;
+      }
+    }
+  }
+
+@media only screen and (max-width: 768px) {
+    .tribox {
+        width: 90%;
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+    .extraImage {
+        width: 200px !important;
+        height: 200px !important;
+    }
+    .extraInfoOne {
+        text-align: center !important;
+        padding-bottom: 10px;
+    }
+    .extraInfoTwo {
+        text-align: center !important;
+    }
+    .extraInfo {
+        font-size: 18px;
+    }
+    .subHeadline {
+        font-size: 18px;
+    }
+    .secondaryAction {
+        width: 100%;
+        padding: 0 16px;
+    }
+    
+    .pricingHeader {
+        font-size: 32px;
+        margin: 60px 0 30px 0;
+    }
+    
+    .comingSoon {
+        font-size: 20px;
+        margin: 20px 0 40px 0;
+    }
+    
+    .pricingGrid {
+        margin-bottom: 40px;
+        
+        .pricing {
+            padding: 24px 20px;
+            height: auto;
+            margin-bottom: 20px;
+            
+            .level {
+                font-size: 22px;
+            }
+            
+            .price {
+                font-size: 40px;
+                margin: 16px 0;
+                
+                span {
+                    font-size: 24px;
+                }
+            }
+            
+            .list {
+                font-size: 16px;
+                
+                .listing {
+                    margin: 12px 0;
+                }
+            }
+        }
+    }
+    
+    .legal {
+        padding: 32px 16px;
+        margin-top: 100px;
+        font-size: 13px;
+        
+        a {
+            font-size: 13px;
+        }
+    }
+}
+.legal {
+    padding: 40px 24px;
+    margin: 0 auto;
+    margin-top: 150px;
+    text-align: center;
+    background-color: #f4f5f8;
+    font-size: 14px;
+    color: #333;
+    
+    a {
+      text-decoration: none;
+      font-weight: 400;
+      font-size: 14px;
+      color: #333;
+      transition: color 0.2s ease;
+      
+      &:hover {
+        color: #FBBC04;
+        text-decoration: underline;
+      }
+    }
+  }
+@media only screen and (min-width: 768px) {
+    .extraInfoOne {
+        padding-left: 20px;
+    }
+    .extraInfoTwo {
+        padding-right: 20px;
+    }
+    .extraImage {
+       padding: 20px;
+       max-width: 100%;
+       height: auto;
+    }
+}
+
+// Ensure images don't cause overflow
+.extraImage {
+    max-width: 100%;
+    height: auto;
+    width: auto;
+}

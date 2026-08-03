@@ -1,0 +1,55 @@
+.textCenter {
+    text-align: center;
+}
+
+.writeReviewBtn {
+    padding: 14px 32px !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    border-radius: 12px !important;
+    text-transform: none !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.emailInstructions {
+    margin-top: 20px;
+    padding: 16px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+    border-left: 3px solid #FBBC04;
+}
+
+.commentArea {
+    min-height: 120px;
+    padding: 16px;
+    font-size: 16px;
+    line-height: 1.5;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-family: inherit;
+    transition: border-color 0.2s ease;
+    resize: vertical;
+    
+    &:focus {
+        outline: none;
+        border-color: #FBBC04;
+    }
+    
+    &::placeholder {
+        color: #999;
+    }
+}
+
+.gridrow {
+    padding-top: 24px;
+}
+
+.error {
+    color: #eb445a;
+    font-size: 14px;
+    font-weight: 500;
+}

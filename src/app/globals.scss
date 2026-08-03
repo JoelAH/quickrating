@@ -1,0 +1,55 @@
+main {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.pageContain {
+  margin-top: 50px;
+}
+@media only screen and (max-width: 768px) {
+  .pageContain {
+      margin-top: 0;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+body {
+  font-family: 'lato';
+  color: #171717;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
+}
+
+// Setup page responsive styles
+.setupPageTitle {
+  @media only screen and (max-width: 1024px) and (min-width: 769px) {
+    font-size: 32px !important;
+  }
+  
+  @media only screen and (max-width: 768px) {
+    font-size: 28px !important;
+  }
+}
+
+.setupPageSubtitle {
+  @media only screen and (max-width: 1024px) and (min-width: 769px) {
+    font-size: 18px !important;
+  }
+  
+  @media only screen and (max-width: 768px) {
+    font-size: 16px !important;
+  }
+}

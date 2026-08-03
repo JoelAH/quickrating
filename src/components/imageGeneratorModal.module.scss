@@ -1,0 +1,207 @@
+// Platform selector styles
+.platformSelector {
+  margin-bottom: 24px;
+
+  .platformButton {
+    padding: 12px 16px;
+    text-transform: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    &.selected {
+      background-color: var(--primary-color, #1976d2);
+      color: white;
+
+      &:hover {
+        background-color: var(--primary-color-dark, #1565c0);
+      }
+    }
+  }
+}
+
+// Preview container styles
+.previewContainer {
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  padding: 16px;
+
+  .loadingState {
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+
+    .spinner {
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .loadingText {
+      margin-top: 16px;
+      color: #666;
+      font-size: 0.875rem;
+      animation: pulse 2s ease-in-out infinite;
+    }
+  }
+
+  .errorState {
+    text-align: center;
+    padding: 0 24px;
+
+    .errorMessage {
+      margin-bottom: 16px;
+      color: #d32f2f;
+      font-size: 1rem;
+    }
+
+    .retryButton {
+      margin-top: 8px;
+    }
+  }
+
+  .imagePreview {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.4s ease-in-out;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+
+  .imagePreview.transitioning {
+    animation: fadeOut 0.3s ease-in-out;
+  }
+}
+
+// Modal dialog styles
+.modalDialog {
+  .dialogContent {
+    padding: 24px;
+  }
+
+  .dialogActions {
+    padding: 16px 24px;
+    gap: 8px;
+  }
+}
+
+// Fade-in animation for image preview
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Fade-out animation for transitioning images
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+// Pulse animation for loading spinner
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// Responsive styles for mobile
+@media (max-width: 768px) {
+  .platformSelector {
+    margin-bottom: 16px;
+
+    .platformButton {
+      padding: 10px 12px;
+      font-size: 0.875rem;
+
+      // Stack icons and text vertically on very small screens
+      @media (max-width: 480px) {
+        flex-direction: column;
+        gap: 4px;
+        padding: 8px;
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  .previewContainer {
+    min-height: 300px;
+    padding: 12px;
+
+    .errorState {
+      padding: 0 16px;
+
+      .errorMessage {
+        font-size: 0.875rem;
+      }
+    }
+
+    .imagePreview {
+      max-height: 400px;
+    }
+  }
+
+  .modalDialog {
+    .dialogContent {
+      padding: 16px;
+    }
+
+    .dialogActions {
+      padding: 12px 16px;
+      flex-direction: column;
+      gap: 8px;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// Extra small screens
+@media (max-width: 480px) {
+  .previewContainer {
+    min-height: 250px;
+    padding: 8px;
+
+    .imagePreview {
+      max-height: 300px;
+    }
+  }
+
+  .modalDialog {
+    .dialogContent {
+      padding: 12px;
+    }
+
+    .dialogActions {
+      padding: 8px 12px;
+    }
+  }
+}
