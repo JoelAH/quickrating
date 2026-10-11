@@ -22,7 +22,7 @@
     "dayjs": "^1.11.12",
     "fakefilter": "^0.1.935",
     "firebase": "^10.12.4",
-    "firebase-admin": "^12.2.0",
+    "firebase-admin": "^14.5.0",
     "mongoose": "^8.5.2",
     "next": "14.2.35",
     "react": "^18",
