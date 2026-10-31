@@ -6,6 +6,7 @@ import theme from './theme';
 import { ThemeProvider } from "@mui/material/styles";
 import { Lato } from 'next/font/google';
 import Metrics from "@/components/metrics";
+import FirebaseAnalytics from "@/components/firebaseAnalytics";
 
 const lato = Lato({
     weight: ['400', '700'],
@@ -73,6 +74,7 @@ export default function RootLayout({
           <body className={lato.className}>
             {children}
             <Metrics />
+            <FirebaseAnalytics />
           </body>
         </ThemeProvider>
       </AppRouterCacheProvider>

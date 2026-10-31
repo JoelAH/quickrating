@@ -57,7 +57,8 @@ Copy `.env.example` to `.env.local` and configure the following variables:
   - `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`
   - `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
   - `NEXT_PUBLIC_FIREBASE_APP_ID`
-  - `NEXT_PUBLIC_MEASUREMENT_ID` (optional)
+  - `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` — Analytics web-stream ID (`G-…`); legacy `NEXT_PUBLIC_MEASUREMENT_ID` also works
+  - `NEXT_PUBLIC_FIREBASE_ANALYTICS_DEBUG` — set to `true` only when testing with Analytics DebugView
 
 - **Database**:
   - `DB_URI` - MongoDB connection string
@@ -201,3 +202,24 @@ To learn more about the technologies used:
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Make sure to configure all environment variables in your deployment platform before deploying.
+
+## Firebase Analytics
+
+Firebase Analytics initializes from the root layout, including public landing pages,
+business pages, and the dashboard. It loads only in supported browsers and only
+when a valid measurement ID is configured. Initialization is shared across mounts.
+
+1. Enable Google Analytics for the Firebase project and register its web data stream.
+2. Set `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` to that stream's `G-…` ID in your
+   hosting environment. Existing `NEXT_PUBLIC_MEASUREMENT_ID` values remain supported.
+3. Rebuild and redeploy: Next.js embeds public environment variables at build time.
+4. In the stream's Enhanced Measurement settings, keep **Page views** and
+   **Page changes based on browser history events** enabled so navigation through
+   Next.js links is tracked. The app uses the SDK's automatic page-view collection;
+   it does not also emit manual page views.
+
+Localhost, loopback, and development runs are excluded by default. To test locally,
+use your real Firebase web configuration and set
+`NEXT_PUBLIC_FIREBASE_ANALYTICS_DEBUG=true`. Check Firebase Analytics DebugView,
+then turn the flag off before publishing. Normal production visits can be checked
+in Google Analytics Realtime. Blocked analytics never prevents the app from loading.
