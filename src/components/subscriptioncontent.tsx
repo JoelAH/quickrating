@@ -19,7 +19,7 @@ export default function SubscriptionContent({ biz }: { biz: User }): JSX.Element
     if (!biz.isSubscribed) {
         content = (
             <div className={classes.subContent}>
-                <h2>Want more from QuickRating?</h2>
+                <h2>A little more room to grow.</h2>
                 <div className={classes.list}>
                     <div className={classes.listing}>
                         <CheckIcon color="success" />
@@ -27,11 +27,11 @@ export default function SubscriptionContent({ biz }: { biz: User }): JSX.Element
                     </div>
                     <div className={classes.listing}>
                         <CheckIcon color="success" />
-                        Publish/Unpublish Reviews
+                        Publishing controls
                     </div>
                     <div className={classes.listing}>
                         <CheckIcon color="success" />
-                        Remove QuickRating branding from page
+                        Remove QuickRating branding
                     </div>
                 </div>
                 <form ref={ugradeFormRef} action={checkoutSubscription}>
@@ -45,7 +45,7 @@ export default function SubscriptionContent({ biz }: { biz: User }): JSX.Element
                         size='large'
                         sx={{ borderRadius: 8 }}
                     >
-                        <span>Upgrade Now</span>
+                        <span>Upgrade to Standard · $7/month</span>
                     </LoadingButton>
                 </form>
             </div>
@@ -69,7 +69,7 @@ export default function SubscriptionContent({ biz }: { biz: User }): JSX.Element
                             setIsCancelling(true);
                             cancelFormRef?.current?.requestSubmit();
                         }}
-                        type='submit'
+                        type='button'
                         color='error'
                         variant="text"
                         size='small'

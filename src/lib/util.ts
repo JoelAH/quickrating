@@ -11,13 +11,17 @@ export function getMetaDataObject(title: string, description: string): { title: 
 }
 
 export function getColorContrast(bgColor: string | undefined) {
-    if (!bgColor) return '#ffffff';
-    const color = (bgColor.charAt(0) === '#') ? bgColor.substring(1, 7) : bgColor;
-    const r = parseInt(color.substring(0, 2), 16); // hexToR
-    const g = parseInt(color.substring(2, 4), 16); // hexToG
-    const b = parseInt(color.substring(4, 6), 16); // hexToB
-    return (((r * 0.299) + (g * 0.587) + (b * 0.114)) > 186) ?
-        '#333333' : '#ffffff';
+    let hex = (bgColor || '#f6c345').replace('#', '');
+    if (/^[a-f0-9]{3}$/i.test(hex)) hex = hex.split('').map(char => char + char).join('');
+    if (!/^[a-f0-9]{6}$/i.test(hex)) return '#171717';
+    const channels = [0, 2, 4].map(offset => {
+        const channel = parseInt(hex.slice(offset, offset + 2), 16) / 255;
+        return channel <= 0.04045 ? channel / 12.92 : Math.pow((channel + 0.055) / 1.055, 2.4);
+    });
+    const luminance = channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+    const darkContrast = (luminance + 0.05) / (0.008568 + 0.05);
+    const whiteContrast = 1.05 / (luminance + 0.05);
+    return darkContrast >= whiteContrast ? '#171717' : '#ffffff';
 }
 export function getContactLink(obj: PageContact | TrialPageContact | undefined, ref: keyof (PageContact | TrialPageContact)): string {
     if (!obj) return '';

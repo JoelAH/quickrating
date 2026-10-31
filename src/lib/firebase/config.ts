@@ -1,7 +1,6 @@
 import { getAuth } from 'firebase/auth';
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getStorage } from 'firebase/storage';
-import { getAnalytics } from "firebase/analytics";
 
 // Load .env variables
 const firebaseConfig = {
@@ -11,16 +10,10 @@ const firebaseConfig = {
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || process.env.NEXT_PUBLIC_MEASUREMENT_ID
 };
 
-const newApp = getApps().length <= 0;
-const firebaseApp = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-
-if (typeof window !== "undefined" && newApp && "measurementId" in firebaseConfig && firebaseConfig.measurementId) {
-  getAnalytics(firebaseApp);
-}
-
+export const firebaseApp = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
 export const firebaseAuth = getAuth(firebaseApp);
 export const firebaseStorage = getStorage(firebaseApp);

@@ -1,0 +1,12 @@
+.preview { background: #fff; border: 1px solid #deded8; border-radius: 18px; overflow: hidden; box-shadow: 0 24px 65px #29291f12; text-align: left; color: #242720; }
+.address { background: #f6f6f2; border-bottom: 1px solid #e9e9e3; padding: 15px 20px; font-size: 12px; color: #62645b; display: flex; align-items: center; gap: 9px; overflow-wrap: anywhere; > span:last-child { margin-left: auto; font-size: 9px; letter-spacing: 1.2px; background: #e8eadf; padding: 4px 7px; border-radius: 4px; color: #505548; } }
+.content { padding: 27px; }
+.identity { display: flex; align-items: center; gap: 13px; h3 { font-size: 19px; margin: 0 0 5px; letter-spacing: -.5px; } p { font-size: 12px; color: #6a6b62; margin: 0; } }
+.avatar { width: 53px; height: 53px; flex-shrink: 0; background: #e9eddc; border-radius: 50%; display: flex; align-items: center; justify-content: center; font: italic 31px Georgia, serif; color: #596346; span { font-size: 17px; } }
+.intro { margin: 23px 0; font: 23px/1.35 Georgia, serif; max-width: 310px; }
+.summary { display: flex; gap: 10px; align-items: center; padding-bottom: 17px; span { color: #9b7100; letter-spacing: 2px; } strong { font-size: 11px; font-weight: 400; color: #686b60; } }
+.review { border: 1px solid #e7e8e0; border-radius: 10px; padding: 17px; margin-bottom: 12px; p { font-size: 13px; line-height: 1.7; margin: 13px 0 0; color: #575c51; } }
+.person { display: flex; align-items: center; gap: 9px; > span { background: #f0eee7; border-radius: 50%; width: 31px; height: 31px; display: grid; place-items: center; font-size: 10px; } strong { font-size: 12px; } small { display: block; font-size: 10px; color: #76786f; margin-top: 3px; } b { font-size: 11px; color: #9b7100; margin-left: auto; letter-spacing: 1px; } }
+.disclaimer { font-size: 10px; line-height: 1.5; color: #76786f; margin: 18px 0; }
+.powered { border-top: 1px solid #edeee8; text-align: center; padding-top: 15px; font-size: 10px; color: #62665a; span { color: #9b7100; margin-left: 4px; } }
+@media (max-width: 480px) { .content { padding: 19px; } .summary { flex-wrap: wrap; } .identity h3 { font-size: 17px; } }

@@ -1,264 +1,46 @@
-import { Metadata } from 'next';
-import { AppBar, Box, Button, Grid, Toolbar, Typography } from '@mui/material';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import ExampleReviewPage from '@/components/exampleReviewPage';
 import CONSTANTS from '@/lib/constants';
+import base from '@/app/page.module.scss';
 import classes from './page.module.scss';
 
+const title = 'Customer Review Pages for Independent Travel Agents';
+const description = 'Collect traveler testimonials on your own branded page. Share your reviews with prospective clients on Instagram, WhatsApp, or email. Start with 15 reviews free.';
 export const metadata: Metadata = {
-  title: 'QuickRating for Travel Agents - Close More Bookings with Reviews',
-  description: 'Independent travel agents: Build trust instantly with a personal review page. Share one link to prove credibility and close more cruise, honeymoon, and group trip bookings.',
-  keywords: 'travel agent reviews, independent travel agent, travel advisor reviews, cruise reviews, honeymoon reviews, travel agent credibility, Instagram travel agent, WhatsApp travel sales',
-  openGraph: {
-    title: 'QuickRating for Travel Agents - Close More Bookings',
-    description: 'Build trust with leads using a personal review page. Perfect for independent travel agents selling via Instagram and WhatsApp.',
-    url: 'https://quickrating.page/landing/travel-agents',
-    siteName: 'QuickRating',
-    type: 'website',
-    images: [{
-      url: 'https://quickrating.page/travel-agents-og.png',
-      width: 1200,
-      height: 630,
-      alt: 'QuickRating for Travel Agents'
-    }]
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'QuickRating for Travel Agents',
-    description: 'Close more bookings with a personal review page',
-    creator: '@QuickRating',
-    images: ['https://quickrating.page/travel-agents-og.png']
-  },
-  alternates: {
-    canonical: 'https://quickrating.page/landing/travel-agents'
-  }
+  title, description,
+  alternates: { canonical: '/landing/travel-agents' },
+  openGraph: { title, description, url: '/landing/travel-agents', type: 'website', images: [{ url: '/opengraph-image', width: 1200, height: 630 }] },
+  twitter: { card: 'summary_large_image', title, description, images: ['/opengraph-image'] },
 };
 
 export default function TravelAgentsLanding() {
-  // Structured data for SEO
-  const webPageSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "QuickRating for Travel Agents",
-    "description": "Review management platform for independent travel agents",
-    "url": "https://quickrating.page/landing/travel-agents",
-    "audience": {
-      "@type": "Audience",
-      "audienceType": "Independent Travel Agents"
-    },
-    "provider": {
-      "@type": "Organization",
-      "name": "QuickRating",
-      "url": "https://quickrating.page"
-    }
-  };
-
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
-      />
-      <Box sx={{ flexGrow: 1, width: '100%', maxWidth: '100vw', overflowX: 'hidden' }} component="header">
-        <AppBar position="static" color={'transparent'} sx={{ boxShadow: 'none' }} component="nav" role="navigation" aria-label="Main navigation">
-          <Toolbar sx={{ padding: { xs: '0 16px', md: '0 24px' } }}>
-            <Image src={'/star.png'} alt={'QuickRating logo'} width={40} height={40} priority />
-            <Typography className={classes.brand} variant="h6" component="div" sx={{ flexGrow: 1, marginLeft: 1 }}>
-              {CONSTANTS.appName}
-            </Typography>
-            <Box sx={{ display: 'flex', gap: 1, marginLeft: 'auto' }}>
-              <Link href={'/auth/login'} passHref>
-                <Button sx={{ color: 'black' }} aria-label="Log in to your account">Log In</Button>
-              </Link>
-              <Link href={'/auth/signup'} passHref>
-                <Button variant="contained" color="info" sx={{ borderRadius: 10 }} aria-label="Sign up for free account">Sign Up Free</Button>
-              </Link>
-            </Box>
-          </Toolbar>
-        </AppBar>
-      </Box>
-      <main>
-        {/* Hero Section */}
-        <section className={classes.heroSection} aria-labelledby="hero-heading">
-          <div className={classes.heroContent}>
-            <h1 id="hero-heading" className={classes.heroHeadline}>
-              Close more travel bookings with one trusted review link
-            </h1>
-            <p className={classes.heroSubheadline}>
-              QuickRating gives independent travel agents a personal reviews page they can share with hesitant clients to prove credibility and close deals faster.
-            </p>
-            <div className={classes.heroButtons}>
-              <Link href="/travelrs" passHref>
-                <Button 
-                  variant="contained" 
-                  className={classes.heroPrimaryButton}
-                  aria-label="View example travel agent review page"
-                >
-                  View example review page
-                </Button>
-              </Link>
-              <Link href="/auth/signup" passHref>
-                <Button 
-                  variant="outlined" 
-                  className={classes.heroSecondaryButton}
-                  aria-label="Get free setup for your review page"
-                >
-                  Get free setup
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* Problem Section */}
-        <section className={classes.problemSection} aria-labelledby="problem-heading">
-          <div className={classes.problemContent}>
-            <h2 id="problem-heading" className={classes.problemHeading}>
-              New travel clients don&apos;t trust easily
-            </h2>
-            <ul className={classes.problemList} aria-label="Trust challenges for travel agents">
-              <li className={classes.problemItem}>
-                Leads ask &quot;Are you legit?&quot; before paying
-              </li>
-              <li className={classes.problemItem}>
-                Your reviews are scattered across DMs, WhatsApp chats, and Facebook comments
-              </li>
-              <li className={classes.problemItem}>
-                Screenshots look unprofessional and are easy to fake
-              </li>
-              <li className={classes.problemItem}>
-                Google Reviews don&apos;t work well for independent agents
-              </li>
-            </ul>
-          </div>
-        </section>
-
-        {/* Solution Section */}
-        <section className={classes.solutionSection} aria-labelledby="solution-heading">
-          <div className={classes.solutionContent}>
-            <h2 id="solution-heading" className={classes.solutionHeading}>
-              One page that proves you&apos;re a trusted travel agent
-            </h2>
-            <p className={classes.solutionDescription}>
-              QuickRating gives you a clean, professional review page that you own and control. Share one simple link with leads to instantly build trust and credibility.
-            </p>
-            <ul className={classes.solutionBenefits} aria-label="QuickRating benefits">
-              <li className={classes.solutionBenefit}>
-                Public reviews page branded to you
-              </li>
-              <li className={classes.solutionBenefit}>
-                Reviews tagged by trip type (cruise, group trip, honeymoon, etc.)
-              </li>
-              <li className={classes.solutionBenefit}>
-                Easy to share on Instagram, WhatsApp, and email
-              </li>
-              <li className={classes.solutionBenefit}>
-                You control your reviews — not a third-party platform
-              </li>
-            </ul>
-          </div>
-        </section>
-
-        {/* How It Works Section */}
-        <section className={classes.howItWorksSection} aria-labelledby="how-it-works-heading">
-          <h2 id="how-it-works-heading" className={classes.howItWorksHeading}>
-            How It Works
-          </h2>
-          <Grid container spacing={4} className={classes.howItWorksGrid}>
-            <Grid item xs={12} md={4}>
-              <div className={classes.stepCard}>
-                <div className={classes.stepIconContainer} aria-hidden="true">
-                  <span className={classes.stepNumber}>1</span>
-                </div>
-                <h3 className={classes.stepTitle}>
-                  Create your personal travel agent review page
-                </h3>
-              </div>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <div className={classes.stepCard}>
-                <div className={classes.stepIconContainer} aria-hidden="true">
-                  <span className={classes.stepNumber}>2</span>
-                </div>
-                <h3 className={classes.stepTitle}>
-                  Send your review link to past or recent clients
-                </h3>
-              </div>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <div className={classes.stepCard}>
-                <div className={classes.stepIconContainer} aria-hidden="true">
-                  <span className={classes.stepNumber}>3</span>
-                </div>
-                <h3 className={classes.stepTitle}>
-                  Share your review page with new leads to build trust and close bookings
-                </h3>
-              </div>
-            </Grid>
-          </Grid>
-        </section>
-
-        {/* Use Cases Section */}
-        <section className={classes.useCasesSection} aria-labelledby="use-cases-heading">
-          <div className={classes.useCasesContent}>
-            <h2 id="use-cases-heading" className={classes.useCasesHeading}>
-              How travel agents use QuickRating
-            </h2>
-            <ul className={classes.useCasesList} aria-label="Use cases for travel agents">
-              <li className={classes.useCaseItem}>
-                Send your review link right after a travel inquiry
-              </li>
-              <li className={classes.useCaseItem}>
-                Add it to your Instagram bio
-              </li>
-              <li className={classes.useCaseItem}>
-                Drop it into WhatsApp conversations
-              </li>
-              <li className={classes.useCaseItem}>
-                Include it in follow-up emails before payment
-              </li>
-            </ul>
-          </div>
-        </section>
-
-        {/* Final CTA Section */}
-        <section className={classes.finalCTASection} aria-labelledby="final-cta-heading">
-          <div className={classes.finalCTAContent}>
-            <h2 id="final-cta-heading" className={classes.finalCTAHeading}>
-              Start closing more bookings today
-            </h2>
-            <Link href="/auth/signup" passHref>
-              <Button 
-                variant="contained" 
-                className={classes.finalCTAButton}
-                aria-label="Get your free review page"
-              >
-                Get your free review page
-              </Button>
-            </Link>
-            <p className={classes.finalCTASubtext}>
-              No credit card required • Free setup
-            </p>
-          </div>
-        </section>
-      </main>
-      <footer role="contentinfo">
-        <Grid container className={classes.legal}>
-          <Grid xs={12} md={4}>
-            &copy; {new Date().getFullYear()} {CONSTANTS.appName}
-          </Grid>
-          <Grid xs={12} md={4}>
-            <Link href={'/legal/privacy'} aria-label="Read our privacy policy">
-              Privacy Policy
-            </Link>
-          </Grid>
-          <Grid xs={12} md={4}>
-            <Link href={'/legal/terms'} aria-label="Read our terms and conditions">
-              Terms &amp; Conditions
-            </Link>
-          </Grid>
-        </Grid>
-      </footer>
-    </>
-  );
+  return <div className={base.page}>
+    <a href="#main-content" className={base.skipLink}>Skip to content</a>
+    <header className={base.header}>
+      <Link href="/" className={base.brand}><Image src="/star.png" alt="" width={29} height={29} />QuickRating.</Link>
+      <nav className={base.nav} aria-label="Main navigation"><a href="#how-it-works">How it works</a><Link href="/#pricing">Pricing</Link><Link href="/blog">Resources</Link></nav>
+      <div className={base.account}><Link href="/auth/login">Log in</Link><Link href="/auth/signup" className={base.smallButton}>Start free ↗</Link></div>
+    </header>
+    <main id="main-content">
+      <section className={base.hero}>
+        <div className={base.heroCopy}><p className={base.eyebrow}><span /> FOR INDEPENDENT TRAVEL AGENTS</p><h1>The next trip<br />starts with<br /><em>a little trust.</em></h1><p className={base.lead}>Give future travelers a place to hear from the people you’ve already helped. Your own review page, ready to share before the booking.</p><div className={base.actions}><Link href="/auth/signup" className={base.primary}>Create your free page ↗</Link><Link href="/demo/review-page" className={base.secondary}>View example →</Link></div><p className={base.finePrint}>{CONSTANTS.freeReviewLimit} reviews free <span>·</span> No website needed</p></div>
+        <div className={base.heroPreview}><div className={base.previewLabel}>✦ REAL EXPERIENCES HAVE A PLACE HERE</div><ExampleReviewPage /><p className={base.previewCaption}>A home for the memories you helped make.</p></div>
+      </section>
+      <div className={base.channelStrip}><span>One review link. Every conversation.</span><div>Travel inquiries <i>✦</i> Instagram bio <i>✦</i> WhatsApp follow-ups <i>✦</i> Email signature</div></div>
+      <section className={classes.conversationSection}>
+        <div><p className={base.eyebrow}>BEFORE THE DEPOSIT, THE QUESTIONS</p><h2>“Have you helped<br />someone like me?”</h2><p>A new client may have questions before trusting you with their holiday. Give them more than a promise: a place to read your past clients’ experiences.</p><p>Keep testimonials together, so you can send one link instead of searching old messages for feedback.</p></div>
+        <div className={classes.conversation}><p className={classes.chatLabel}>AN EXAMPLE CLIENT CONVERSATION</p><div className={classes.message}>The itinerary looks lovely! Do you have any reviews I could read before booking?</div><div className={classes.reply}>Of course. Here’s what past travelers have shared about their experience.<div>↗ quickrating.page/yourbusiness</div></div><p className={classes.chatNote}>A simple link for a thoughtful follow-up.</p></div>
+      </section>
+      <section id="how-it-works" className={base.section}><div className={base.sectionHeading}><p className={base.eyebrow}>FROM THE FIRST TRIP TO THE NEXT</p><h2>Make feedback part of the journey.</h2><p>Three small steps. No new website to maintain.</p></div><div className={base.steps}>{[
+        ['01', 'Put your name on it', 'Add your business name, welcome message, logo, and contact links. Choose a page color that feels like your brand.'],
+        ['02', 'Ask when they get home', 'Send your page link after a trip. Clients share their experience and confirm their email address.'],
+        ['03', 'Share with the next traveler', 'Include your reviews in a follow-up, add the page to your bio, or send it when a prospect asks about your work.'],
+      ].map(([number, heading, copy]) => <article key={number}><span>{number}</span><h3>{heading}</h3><p>{copy}</p></article>)}</div></section>
+      <section className={base.audience}><div><p className={base.eyebrow}>YOUR BUSINESS, IN THEIR WORDS</p><h2>Your clients remember<br />the little things.</h2></div><div className={base.audienceCopy}><p>The patient answers. The well-planned transfer. The extra help when plans change. Give those experiences a home that’s easy to share.</p><p>QuickRating collects customer testimonials. Email confirmation checks access to an inbox; it doesn’t verify a booking or guarantee a future experience.</p><Link href="/#pricing">Explore the free and Standard plans ↗</Link></div></section>
+      <section className={base.finalCta}><span aria-hidden="true">✦</span><h2>Let one lovely trip<br />help introduce the next.</h2><Link href="/auth/signup" className={base.primary}>Create your free review page ↗</Link><p>{CONSTANTS.freeReviewLimit} reviews free. No credit card required.</p></section>
+    </main>
+    <footer className={base.footer}><Link href="/" className={base.brand}><Image src="/star.png" alt="" width={25} height={25} />QuickRating.</Link><p>Good experiences deserve to be shared.</p><nav aria-label="Footer navigation"><Link href="/blog">Resources</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link></nav><small>© {new Date().getFullYear()} QuickRating</small></footer>
+  </div>;
 }

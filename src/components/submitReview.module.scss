@@ -1,55 +1,8 @@
-.textCenter {
-    text-align: center;
-}
-
-.writeReviewBtn {
-    padding: 14px 32px !important;
-    font-size: 18px !important;
-    font-weight: 600 !important;
-    border-radius: 12px !important;
-    text-transform: none !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-}
-
-.emailInstructions {
-    margin-top: 20px;
-    padding: 16px;
-    background: #f9f9f9;
-    border-radius: 8px;
-    font-size: 14px;
-    line-height: 1.6;
-    color: #555;
-    border-left: 3px solid #FBBC04;
-}
-
-.commentArea {
-    min-height: 120px;
-    padding: 16px;
-    font-size: 16px;
-    line-height: 1.5;
-    border: 2px solid #e0e0e0;
-    border-radius: 12px;
-    font-family: inherit;
-    transition: border-color 0.2s ease;
-    resize: vertical;
-    
-    &:focus {
-        outline: none;
-        border-color: #FBBC04;
-    }
-    
-    &::placeholder {
-        color: #999;
-    }
-}
-
-.gridrow {
-    padding-top: 24px;
-}
-
-.error {
-    color: #eb445a;
-    font-size: 14px;
-    font-weight: 500;
-}
+.textCenter { text-align: left; }
+.writeReviewBtn { padding: 11px 18px !important; font-size: 12px !important; font-weight: 600 !important; border-radius: 5px !important; text-transform: none !important; box-shadow: none !important; border: 1px solid #d4dbc6 !important; &:hover { transform: none !important; box-shadow: none !important; } }
+.formPanel { border: 1px solid #dce3ce; border-radius: 9px; padding: 4px 22px 24px; background: #f7f9f1; :global(.MuiOutlinedInput-root) { background: white; border-radius: 6px; font-size: 14px; } :global(.MuiInputLabel-root) { font-size: 14px; } :global(.MuiButton-root) { text-transform: none; box-shadow: none; border-radius: 5px; } }
+.emailInstructions { margin: 20px 0 0; padding: 14px; border: 1px solid #e1e6d6; background: #f0f4e7; border-radius: 6px; font-size: 12px; line-height: 1.8; color: #737f63; }
+.commentArea { min-height: 120px; padding: 15px; font-family: inherit; font-size: 14px; line-height: 1.8; border: 1px solid #d5ddc6; border-radius: 6px; resize: vertical; &:focus { outline: 2px solid #7f8e67; outline-offset: 2px; } }
+.gridrow { padding-top: 20px; }
+.error { color: #9f4637; font-size: 12px; line-height: 1.7; }
+@media(max-width: 600px) { .formPanel { padding: 0 14px 20px; } }

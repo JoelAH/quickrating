@@ -1,466 +1,62 @@
-import CONSTANTS from '@/lib/constants';
-import { AppBar, Box, Button, Grid, Toolbar, Typography } from '@mui/material';
-import Link from 'next/link';
+import type { Metadata } from 'next';
 import Image from 'next/image';
-import classes from './page.module.scss';
-import LinkIcon from '@mui/icons-material/Link';
-import BrushIcon from '@mui/icons-material/Brush';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import Link from 'next/link';
+import CONSTANTS from '@/lib/constants';
+import ExampleReviewPage from '@/components/exampleReviewPage';
 import { generateOrganizationSchema, generateWebsiteSchema, generateSoftwareApplicationSchema, generateFAQSchema } from '@/lib/structuredData';
-import { Metadata } from 'next';
+import classes from './page.module.scss';
 
+const title = 'Customer Review Pages for Instagram Businesses | QuickRating';
+const description = `Collect customer reviews without a website. Create a branded review page, share it on Instagram or WhatsApp, and start with ${CONSTANTS.freeReviewLimit} reviews free.`;
 export const metadata: Metadata = {
-  title: 'QuickRating - Customer Review Pages for Small Businesses',
-  description: 'Collect and display customer reviews with custom landing pages. Perfect for Instagram businesses and online entrepreneurs. Free plan available.',
-  keywords: 'customer reviews, review page, small business reviews, Instagram business, online reviews, social proof, testimonials',
-  openGraph: {
-    title: 'QuickRating - Customer Review Pages for Small Businesses',
-    description: 'Collect and display customer reviews with custom landing pages. Perfect for Instagram businesses and online entrepreneurs.',
-    url: 'https://quickrating.page',
-    siteName: 'QuickRating',
-    type: 'website',
-    images: [{
-      url: 'https://firebasestorage.googleapis.com/v0/b/pintratings.appspot.com/o/images%2FQR-Homepage.png?alt=media&token=70d3a00a-2992-4e9c-b5f0-98abe58e5d43',
-      width: 1200,
-      height: 630,
-      alt: 'QuickRating - Review Management Platform'
-    }]
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'QuickRating - Customer Review Pages for Small Businesses',
-    description: 'Collect and display customer reviews with custom landing pages. Perfect for Instagram businesses and online entrepreneurs.',
-    creator: '@QuickRating',
-    images: ['https://firebasestorage.googleapis.com/v0/b/pintratings.appspot.com/o/images%2FQR-Homepage.png?alt=media&token=70d3a00a-2992-4e9c-b5f0-98abe58e5d43']
-  },
-  alternates: {
-    canonical: 'https://quickrating.page'
-  }
+  title: { absolute: title }, description,
+  alternates: { canonical: '/' },
+  openGraph: { title, description, url: '/', type: 'website', images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'QuickRating — Give happy customers a place to speak for you' }] },
+  twitter: { card: 'summary_large_image', title, description, images: ['/opengraph-image'] },
 };
+const faqs = [
+  { question: 'Can I collect reviews without a website?', answer: 'Yes. QuickRating hosts your branded review page. Share its link in your Instagram bio, WhatsApp conversations, emails, or messages to customers.' },
+  { question: 'What is included in the free plan?', answer: `Your free account includes ${CONSTANTS.freeReviewLimit} customer reviews, a customized page, and automatic publishing. It has no trial expiry and requires no credit card. The separate no-signup trial is limited to 3 reviews for 14 days.` },
+  { question: 'Do my customers need a QuickRating account?', answer: 'No. Customers enter their name, rating, feedback, and email address, then confirm a code sent to their inbox. Email confirmation checks access to that address; it does not verify a purchase.' },
+  { question: 'How is this different from Google Reviews?', answer: 'QuickRating gives you a standalone page to collect and share customer testimonials. It does not publish reviews to Google or replace a Google Business Profile. It can be useful if your business sells through social media and does not have a website.' },
+  { question: 'What changes when I upgrade?', answer: `Standard costs $${CONSTANTS.standardMonthlyPrice} USD per month and includes unlimited reviews, publishing controls, new-review email notifications, and removal of QuickRating branding. On the free plan, completed reviews publish automatically; Standard lets the business curate which testimonials appear.` },
+];
 
 export default function Home() {
-  const organizationSchema = generateOrganizationSchema();
-  const websiteSchema = generateWebsiteSchema();
-  const softwareSchema = generateSoftwareApplicationSchema();
-  
-  const faqSchema = generateFAQSchema([
-    {
-      question: 'How does QuickRating work?',
-      answer: 'QuickRating provides a custom review page where customers can leave reviews. You get a unique link (quickrating.page/yourname) to share with customers via social media, email, or text.'
-    },
-    {
-      question: 'Is QuickRating free?',
-      answer: 'Yes! We offer a free plan with 3 reviews and auto-publishing. Our Standard plan ($7/month) includes unlimited reviews, moderation, and no branding.'
-    },
-    {
-      question: 'Do I need a website to use QuickRating?',
-      answer: 'No! QuickRating is perfect for businesses without websites. Your review page serves as your online presence for collecting social proof.'
-    },
-    {
-      question: 'Can I customize my review page?',
-      answer: 'Absolutely! You can customize colors, add your logo, business information, and contact details to match your brand.'
-    }
-  ]);
+  const schemas = [generateOrganizationSchema(), generateWebsiteSchema(), generateSoftwareApplicationSchema(), generateFAQSchema(faqs)];
   return (
-    <>
-      <script 
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-      />
-      <script 
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-      />
-      <script 
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
-      />
-      <script 
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-      <Box sx={{ flexGrow: 1, width: '100%', maxWidth: '100vw', overflowX: 'hidden' }}>
-        <AppBar position="static" color={'transparent'} sx={{ boxShadow: 'none' }}>
-          <Toolbar sx={{ padding: { xs: '0 16px', md: '0 24px' } }}>
-            <Image src={'/star.png'} alt={'QuickRating'} width={40} height={40} priority />
-            <Typography className={classes.brand} variant="h6" component="div" sx={{ flexGrow: 1, marginLeft: 1 }}>
-              {CONSTANTS.appName}
-            </Typography>
-            <Box sx={{ display: 'flex', gap: 1, marginLeft: 'auto' }}>
-              <Link href={'/auth/login'} passHref>
-                <Button sx={{ color: 'black' }}>Log In</Button>
-              </Link>
-              <Link href={'/auth/signup'} passHref>
-                <Button variant="contained" color="info" sx={{ borderRadius: 10 }}>Sign Up Free</Button>
-              </Link>
-            </Box>
-          </Toolbar>
-        </AppBar>
-      </Box>
-      <main>
-        {/* Hero Section */}
-        <Box className={classes.heroSection}>
-          <Box className={classes.heroContent}>
-            <h1 className={classes.heroHeadline}>
-              Collect and Display Reviews — Even Without Google or Trustpilot
-            </h1>
-            <p className={classes.heroSubheadline}>
-              QuickRating gives small online businesses a simple page where customers can leave real reviews you can proudly share.
-            </p>
-            <Box className={classes.heroButtons}>
-              <Link href={'/auth/signup'} passHref>
-                <Button
-                  variant="contained"
-                  className={classes.heroPrimaryButton}
-                >
-                  Create Your Free Review Page
-                </Button>
-              </Link>
-              {/* <Link href={'/try/setup'} passHref>
-                <Button
-                  variant="outlined"
-                  className={classes.heroSecondaryButton}
-                >
-                  Try Without Signing Up
-                </Button>
-              </Link> */}
-            </Box>
-          </Box>
-        </Box>
-
-        {/* Problem Section */}
-        <Box className={classes.problemSection}>
-          <Box className={classes.problemContent}>
-            <p className={classes.problemStatement}>
-              Most small online businesses don&apos;t have a place for customers to leave reviews.
-            </p>
-            <p className={classes.problemStatement}>
-              Without reviews, new buyers hesitate — and sales slip away.
-            </p>
-            <p className={classes.problemStatement}>
-              Collecting social proof shouldn&apos;t be this complicated.
-            </p>
-          </Box>
-        </Box>
-
-        {/* Guide Section */}
-        <Box className={classes.guideSection}>
-          <Box className={classes.guideContent}>
-            <p className={classes.guideText}>
-              At QuickRating, we understand how hard it is to build credibility online — especially when you&apos;re just starting out. That&apos;s why we created an easy, all-in-one review page that helps your business look professional and trustworthy.
-            </p>
-          </Box>
-        </Box>
-
-        {/* Plan Section - How It Works */}
-        <Box className={classes.planSection}>
-          <h2 className={classes.planHeading}>How It Works</h2>
-          <Box className={classes.planGrid}>
-            <Grid container spacing={{ xs: 3, md: 5 }} justifyContent="center">
-              <Grid item xs={12} md={3}>
-                <Box className={classes.planStep}>
-                  <Box className={classes.planIconContainer}>
-                    <span className={classes.planStepNumber}>1</span>
-                  </Box>
-                  <h3 className={classes.planStepTitle}>Create Your Page</h3>
-                  <p className={classes.planStepDescription}>
-                    Sign up and customize your review page with your brand colors and business information in minutes.
-                  </p>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <Box className={classes.planStep}>
-                  <Box className={classes.planIconContainer}>
-                    <span className={classes.planStepNumber}>2</span>
-                  </Box>
-                  <h3 className={classes.planStepTitle}>Share Your Link</h3>
-                  <p className={classes.planStepDescription}>
-                    Get your unique link (quickrating.page/yourname) and share it with customers via social media, email, or text.
-                  </p>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <Box className={classes.planStep}>
-                  <Box className={classes.planIconContainer}>
-                    <span className={classes.planStepNumber}>3</span>
-                  </Box>
-                  <h3 className={classes.planStepTitle}>Collect and Showcase</h3>
-                  <p className={classes.planStepDescription}>
-                    Customers leave reviews on your page, and you showcase them to build trust and drive more sales.
-                  </p>
-                </Box>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-
-        {/* Success Section */}
-        <Box className={classes.successSection}>
-          <h2 className={classes.successHeading}>With QuickRating, You Can:</h2>
-          <Box className={classes.successGrid}>
-            <Grid container spacing={{ xs: 2, md: 4 }} justifyContent="center">
-              <Grid item xs={12} md={3}>
-                <Box className={classes.successCard}>
-                  <CheckCircleIcon className={classes.successIcon} />
-                  <p className={classes.successText}>
-                    Build trust instantly with real customer reviews
-                  </p>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <Box className={classes.successCard}>
-                  <CheckCircleIcon className={classes.successIcon} />
-                  <p className={classes.successText}>
-                    Share your review page anywhere — social media, email, or text
-                  </p>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <Box className={classes.successCard}>
-                  <CheckCircleIcon className={classes.successIcon} />
-                  <p className={classes.successText}>
-                    Customize your page to match your brand in minutes
-                  </p>
-                </Box>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-
-        {/* Failure Section */}
-        <Box className={classes.failureSection}>
-          <Box className={classes.failureContent}>
-            <p className={classes.failureText}>
-              Without a dedicated place for reviews, you risk losing potential customers who need social proof before buying. Don&apos;t let the lack of reviews hold your business back.
-            </p>
-          </Box>
-        </Box>
-
-        {/* Transformation Section */}
-        <Box className={classes.transformationSection}>
-          <Box className={classes.transformationGrid}>
-            <Grid container spacing={{ xs: 3, md: 6 }} justifyContent="center">
-              <Grid item xs={12} md={5}>
-                <Box className={classes.transformationBefore}>
-                  <h3 className={classes.transformationHeading}>Before QuickRating</h3>
-                  <Box className={classes.transformationList}>
-                    <Box className={classes.transformationItem}>
-                      <span className={classes.transformationIconBefore}>✗</span>
-                      <span>No place to collect reviews</span>
-                    </Box>
-                    <Box className={classes.transformationItem}>
-                      <span className={classes.transformationIconBefore}>✗</span>
-                      <span>Customers don&apos;t trust your business</span>
-                    </Box>
-                    <Box className={classes.transformationItem}>
-                      <span className={classes.transformationIconBefore}>✗</span>
-                      <span>Hard to prove your credibility</span>
-                    </Box>
-                    <Box className={classes.transformationItem}>
-                      <span className={classes.transformationIconBefore}>✗</span>
-                      <span>Losing sales to competitors</span>
-                    </Box>
-                  </Box>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={5}>
-                <Box className={classes.transformationAfter}>
-                  <h3 className={classes.transformationHeading}>After QuickRating</h3>
-                  <Box className={classes.transformationList}>
-                    <Box className={classes.transformationItem}>
-                      <span className={classes.transformationIconAfter}>✓</span>
-                      <span>Clean, professional review page</span>
-                    </Box>
-                    <Box className={classes.transformationItem}>
-                      <span className={classes.transformationIconAfter}>✓</span>
-                      <span>Real social proof from customers</span>
-                    </Box>
-                    <Box className={classes.transformationItem}>
-                      <span className={classes.transformationIconAfter}>✓</span>
-                      <span>Instant credibility and trust</span>
-                    </Box>
-                    <Box className={classes.transformationItem}>
-                      <span className={classes.transformationIconAfter}>✓</span>
-                      <span>More confident buyers and sales</span>
-                    </Box>
-                  </Box>
-                </Box>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-
-        <Grid container sx={{ textAlign: 'center', margin: '100px auto', maxWidth: '1200px', padding: '0 24px' }}>
-          <Grid container item xs={12} md={10} sx={{ textAlign: 'center', margin: '0 auto', alignItems: 'center' }}>
-            <Grid item xs={12} md={6}>
-              <Image
-                className={classes.extraImage}
-                src={'/devices.png'}
-                alt={'devices'}
-                width={400}
-                height={400}
-              />
-            </Grid>
-            <Grid item className={classes.extraInfoOne} xs={12} md={6} sx={{ textAlign: 'left' }}>
-              <span className={classes.extraInfo}>Your beautiful branded page will be accessible from both desktops and mobile devices.</span>
-            </Grid>
-            <Grid item className={classes.extraInfoTwo} xs={12} md={6} sx={{ textAlign: 'left' }}>
-              <span className={classes.extraInfo}>Let potential customers see the great things your existing customers have to say.</span>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Image
-                className={classes.extraImage}
-                src={'/rating.png'}
-                alt={'rating'}
-                width={400}
-                height={400}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-        <div className={classes.pricingHeader}>
-          Pricing
-        </div>
-        <Grid container className={classes.pricingGrid}>
-          <Grid container item xs={12} md={8} sx={{ margin: '0 auto' }}>
-            <Grid item xs={12} md={6} className={classes.pricingRow}>
-              <div className={classes.pricing}>
-                <div className={classes.level}>
-                  Basic
-                </div>
-                <div className={classes.price}>
-                  Free
-                </div>
-                <div className={classes.intro}>
-                  Features:
-                </div>
-                <div className={classes.list}>
-                  <Grid container item>
-                    <Grid item xs={12}>
-                      <div className={classes.listing}>
-                        <CheckCircleIcon color="success" />
-                        3 Reviews
-                      </div>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <div className={classes.listing}>
-                        <CheckCircleIcon color="success" />
-                        All reviews published to page
-                      </div>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <div className={classes.listing}>
-                        <CheckCircleIcon color="success" />
-                        Customized page
-                      </div>
-                    </Grid>
-                  </Grid>
-                </div>
-                <div className={classes.startedDiv}>
-                  <Link href={'/auth/signup'} passHref>
-                    <Button
-                      variant='contained'
-                      fullWidth>
-                      Get Started
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </Grid>
-            <Grid item xs={12} md={6} className={classes.pricingRow}>
-              <div className={`${classes.pricing} ${classes.standard}`}>
-                <div className={classes.level}>
-                  Standard
-                </div>
-                <div className={classes.price}>
-                  $7 <span>/month</span>
-                </div>
-                <div className={classes.intro}>
-                  Features:
-                </div>
-                <div className={classes.list}>
-                  <Grid container item>
-                    <Grid item xs={12}>
-                      <div className={classes.listing}>
-                        <CheckCircleIcon color="success" />
-                        Unlimited Reviews
-                      </div>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <div className={classes.listing}>
-                        <CheckCircleIcon color="success" />
-                        Choose what reviews get published
-                      </div>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <div className={classes.listing}>
-                        <CheckCircleIcon color="success" />
-                        Customized page
-                      </div>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <div className={classes.listing}>
-                        <CheckCircleIcon color="success" />
-                        Notification of new reviews
-                      </div>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <div className={classes.listing}>
-                        <CheckCircleIcon color="success" />
-                        No QuickRating branding on page
-                      </div>
-                    </Grid>
-                  </Grid>
-                </div>
-                <div className={classes.startedDiv}>
-                  <Link href={'/auth/signup'} passHref>
-                    <Button
-                      variant='contained'
-                      fullWidth>
-                      Get Started
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </Grid>
-          </Grid>
-        </Grid>
-
-        <div className={classes.comingSoon}>
-          Analytics and reviews with images &amp; videos coming soon!
-        </div>
-
-        <div className={classes.secondaryAction}>
-          <div className={classes.subHeadline}>
-            If you have an Instagram or other online business and need a page for social proof, {CONSTANTS.appName} is for you. Elevate your brand reputation
-            and drive conversions by showcasing real customer experiences. It&apos;s easy to get started.
-          </div>
-          <div style={{ marginTop: '40px' }}>
-            <Link href={'/auth/signup'} passHref>
-              <Button
-                variant='contained'>
-                Sign Up Now
-              </Button>
-            </Link>
-          </div>
-        </div>
+    <div className={classes.page}>
+      {schemas.map((schema, index) => <script key={index} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }} />)}
+      <a className={classes.skipLink} href="#main-content">Skip to content</a>
+      <header className={classes.header}>
+        <Link href="/" className={classes.brand} aria-label="QuickRating home"><Image src="/star.png" alt="" width={29} height={29} priority />QuickRating<span className={classes.brandDot}>.</span></Link>
+        <nav aria-label="Main navigation" className={classes.nav}><a href="#how-it-works">How it works</a><a href="#pricing">Pricing</a><Link href="/blog">Resources</Link></nav>
+        <div className={classes.account}><Link href="/auth/login">Log in</Link><Link className={classes.smallButton} href="/auth/signup">Start free <span aria-hidden="true">↗</span></Link></div>
+      </header>
+      <main id="main-content">
+        <section className={classes.hero}>
+          <div className={classes.heroCopy}><p className={classes.eyebrow}><span /> FOR BUSINESSES BUILT ON SOCIAL</p><h1>Happy customers.<br />A little more<br /><em>word of mouth.</em></h1><p className={classes.lead}>Give their kind words a home. Collect customer reviews on one beautiful page, then share it with your next customer.</p><div className={classes.actions}><Link className={classes.primary} href="/auth/signup">Create your free page <span aria-hidden="true">↗</span></Link><Link className={classes.secondary} href="/demo/review-page">View example <span aria-hidden="true">→</span></Link></div><p className={classes.finePrint}>{CONSTANTS.freeReviewLimit} reviews free <span>·</span> No credit card <span>·</span> No website needed</p></div>
+          <div className={classes.heroPreview}><div className={classes.previewLabel}><span aria-hidden="true">✦</span> YOUR CUSTOMERS, IN THEIR OWN WORDS</div><ExampleReviewPage /><p className={classes.previewCaption}>Your brand. Your link. Their experience.</p></div>
+        </section>
+        <div className={classes.channelStrip}><span>A home for reviews. A link for everywhere.</span><div>Instagram bio <i>✦</i> WhatsApp chats <i>✦</i> Email signature <i>✦</i> Direct messages</div></div>
+        <section id="how-it-works" className={classes.section}>
+          <div className={classes.sectionHeading}><p className={classes.eyebrow}>LESS SETUP. MORE SHARING.</p><h2>From “thank you” to<br />“you should try them.”</h2><p>You already do the work people appreciate.<br />Make their feedback easier to find.</p></div>
+          <div className={classes.steps}>{[
+            ['01', 'Make it yours', 'Add your business name, brand colors, image, and contact details. Get a page with a link you can call your own.'],
+            ['02', 'Ask for their experience', 'Send your link after a purchase or a finished project. Customers leave feedback and confirm their email.'],
+            ['03', 'Let the words travel', 'Put your page in your bio or share it when a new customer asks about your work. Keep the feedback in one place.'],
+          ].map(([number, heading, copy]) => <article key={number}><span>{number}</span><h3>{heading}</h3><p>{copy}</p></article>)}</div>
+        </section>
+        <section className={classes.audience}><div><p className={classes.eyebrow}>YOU DON’T NEED A BIG WEBSITE</p><h2>Just a business<br />people love.</h2></div><div className={classes.audienceCopy}><p>For independent sellers, freelancers, and service businesses whose next customer starts with a message.</p><p>Instead of digging through old conversations for kind words, send one link to a page of customer testimonials.</p><Link href="/landing/travel-agents">Are you an independent travel agent? <span aria-hidden="true">↗</span></Link></div></section>
+        <section id="pricing" className={classes.section}>
+          <div className={classes.sectionHeading}><p className={classes.eyebrow}>START SMALL. GROW AT YOUR PACE.</p><h2>Your first {CONSTANTS.freeReviewLimit} reviews are on us.</h2><p>A useful free page today. More room whenever you need it.</p></div>
+          <div className={classes.plans}><article className={classes.plan}><p className={classes.planLabel}>BASIC</p><h3>For your first kind words.</h3><div className={classes.price}>$0<span> / forever</span></div><ul><li>{CONSTANTS.freeReviewLimit} customer reviews</li><li>Your own branded review page</li><li>Business and contact details</li><li>Completed reviews publish automatically</li></ul><Link className={classes.secondary} href="/auth/signup">Create your free page <span aria-hidden="true">↗</span></Link><small>Includes QuickRating branding. No card required.</small></article>
+          <article className={`${classes.plan} ${classes.paidPlan}`}><p className={classes.planLabel}>STANDARD <span>ROOM TO GROW</span></p><h3>Keep the good words coming.</h3><div className={classes.price}>${CONSTANTS.standardMonthlyPrice}<span> USD / month</span></div><ul><li>Unlimited customer reviews</li><li>Everything in Basic</li><li>New-review email notifications</li><li>Remove QuickRating branding</li><li>Publishing controls for your testimonials</li></ul><Link className={classes.primary} href="/auth/signup">Start free, upgrade later <span aria-hidden="true">↗</span></Link><small>Create an account, then upgrade in your dashboard.</small></article></div>
+        </section>
+        <section className={classes.faq}><div><p className={classes.eyebrow}>A FEW GOOD QUESTIONS</p><h2>Before you <br />get started.</h2></div><div>{faqs.map(faq => <details key={faq.question}><summary>{faq.question}<span aria-hidden="true">+</span></summary><p>{faq.answer}</p></details>)}</div></section>
+        <section className={classes.finalCta}><span aria-hidden="true">✦</span><h2>Your next customer would love<br />to hear from your last one.</h2><Link className={classes.primary} href="/auth/signup">Give your reviews a home <span aria-hidden="true">↗</span></Link><p>Start with {CONSTANTS.freeReviewLimit} reviews, free.</p></section>
       </main>
-      <Grid container className={classes.legal}>
-        <Grid xs={12} md={4}>
-          &copy; {new Date().getFullYear()} {CONSTANTS.appName}
-        </Grid>
-        <Grid xs={12} md={4}>
-          <Link href={'legal/privacy'}>
-            Privacy Policy
-          </Link>
-        </Grid>
-        <Grid xs={12} md={4}>
-          <Link href={'legal/terms'}>
-            Terms &amp; Conditions
-          </Link>
-        </Grid>
-      </Grid>
-    </>
+      <footer className={classes.footer}><Link className={classes.brand} href="/"><Image src="/star.png" alt="" width={25} height={25} />QuickRating.</Link><p>Good experiences deserve to be shared.</p><nav aria-label="Footer navigation"><Link href="/blog">Resources</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link></nav><small>© {new Date().getFullYear()} QuickRating</small></footer>
+    </div>
   );
 }

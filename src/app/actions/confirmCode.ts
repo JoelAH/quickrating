@@ -1,5 +1,6 @@
 "use server";
 
+import CONSTANTS from "@/lib/constants";
 import dbConnect from "@/lib/db/db";
 import { getUserWithPayment } from "@/lib/db/user";
 import { sendReviewEmailToBusiness } from "@/lib/models/server/email";
@@ -47,6 +48,17 @@ export async function onConfirmCode(prevState: any, formData: FormData): Promise
     if (!page) {
         return {
             error: 'The page to be reviewed was not found'
+        }
+    }
+
+    // Recheck at confirmation: several customers may have requested codes before the cap.
+    if (!page.isSubscribed) {
+        const completedCount = await ReviewModel.countDocuments({
+            page: new Types.ObjectId(pageId),
+            completedAt: { $exists: true },
+        });
+        if (completedCount >= CONSTANTS.freeReviewLimit) {
+            return { error: 'This page has reached its free review allowance.' };
         }
     }
 

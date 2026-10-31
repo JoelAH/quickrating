@@ -2,6 +2,8 @@ const CONSTANTS = {
     appName: 'QuickRating',
     sessionCookieName: 'qr_user_session',
     maxPasswordLength: 6,
+    freeReviewLimit: 15,
+    standardMonthlyPrice: 7,
     trialPages: {
         expirationDays: 14,
         maxReviews: 3,

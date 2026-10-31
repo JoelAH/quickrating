@@ -1,5 +1,5 @@
-@media only screen and (max-width: 768px) {
-    .brand {
-        display: none;
-    }
-}
+.header { background: #fbfaf6; border-bottom: 1px solid #e3e5d9; }
+.inner { max-width: 1160px; margin: auto; display: flex; align-items: center; gap: 45px; padding: 21px 36px; a { text-decoration: none; color: #6a6f62; } nav { display: flex; gap: 25px; font-size: 13px; a { padding: 9px 0; border-bottom: 2px solid transparent; } a[aria-current] { border-color: #bc9a33; color: #282c24; } } button { margin-left: auto; cursor: pointer; border: 1px solid #d8ddce; border-radius: 5px; background: transparent; padding: 10px 13px; font: inherit; font-size: 12px; color: #5d6651; span { margin-left: 10px; } } a:focus-visible, button:focus-visible { outline: 2px solid #8a7227; outline-offset: 4px; } }
+.inner .brand { display: flex; align-items: center; gap: 8px; font-size: 21px; font-weight: 700; color: #282c24; letter-spacing: -.7px; }
+.error { color: #943c32; font-size: 12px; text-align: center; padding-bottom: 12px; }
+@media(max-width: 600px) { .inner { padding: 18px 20px; gap: 12px; flex-wrap: wrap; .brand { font-size: 19px; } nav { order: 3; width: 100%; gap: 24px; } button { padding: 9px 11px; } } }

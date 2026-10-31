@@ -1,83 +1,38 @@
 import { blogs } from '@/lib/util';
+import dbConnect from '@/lib/db/db';
+import UserModel from '@/lib/models/server/user';
 import type { MetadataRoute } from 'next';
 
-type changeFrequency = 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
+export const revalidate = 3600;
+const origin = 'https://quickrating.page';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    let maps: { url: string, lastModified: Date, changeFrequency: changeFrequency, priority: number }[] = [];
-
+  const profiles: MetadataRoute.Sitemap = [];
+  // Query the deployment's own database rather than its production HTTP API.
+  if (process.env.DB_URI) {
     try {
-        const res = await fetch('https://quickrating.page/api/get-all-users', {
-            method: "POST",
-            body: JSON.stringify({
-                key: "next"
-            })
-        })
-        if (res.ok) {
-            const profiles = await res.json();
-            if (profiles?.length) {
-                maps = profiles.map((p: any) => {
-                    return {
-                        url: `https://quickrating.page/${p.customLink}`,
-                        lastModified: new Date(p.updatedAt),
-                        changeFrequency: 'monthly' as changeFrequency,
-                        priority: 0.2
-                    }
-                })
-            }
-        }
+      await dbConnect();
+      const users = await UserModel.find({ deletedAt: { $exists: false }, customLink: { $type: 'string', $ne: '' } })
+        .select({ customLink: 1, updatedAt: 1 }).lean();
+      for (const user of users) {
+        const date = user.updatedAt ? new Date(user.updatedAt) : undefined;
+        profiles.push({
+          url: `${origin}/${encodeURIComponent(user.customLink)}`,
+          ...(date && !Number.isNaN(date.getTime()) ? { lastModified: date } : {}),
+          changeFrequency: 'monthly', priority: 0.4,
+        });
+      }
+    } catch {
+      console.error('Sitemap: could not load business pages.');
     }
-    catch (e) {
-        console.log('sitemap error', JSON.stringify(e));
-     }
-
-     const blogMaps = blogs.map((blog: any) => {
-        return {
-            url: `https://quickrating.page/blog/${blog.slug}`,
-            lastModified: new Date(blog.date),
-            changeFrequency: 'monthly' as changeFrequency,
-            priority: 0.7
-        }
-    });
-    maps = [...maps, ...blogMaps];
-
-    return [
-        {
-            url: 'https://quickrating.page',
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 1,
-        },
-        {
-            url: 'https://quickrating.page/blog',
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        },
-        {
-            url: 'https://quickrating.page/auth/signup',
-            lastModified: new Date(),
-            changeFrequency: 'monthly',
-            priority: 0.8,
-        },
-        {
-            url: 'https://quickrating.page/auth/login',
-            lastModified: new Date(),
-            changeFrequency: 'monthly',
-            priority: 0.5,
-        },
-        {
-            url: 'https://quickrating.page/legal/privacy',
-            lastModified: new Date(),
-            changeFrequency: 'yearly',
-            priority: 0.3,
-        },
-        {
-            url: 'https://quickrating.page/legal/terms',
-            lastModified: new Date(),
-            changeFrequency: 'yearly',
-            priority: 0.3,
-        },
-        ...maps
-    ]
+  }
+  return [
+    { url: origin, changeFrequency: 'monthly', priority: 1 },
+    { url: `${origin}/landing/travel-agents`, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${origin}/blog`, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${origin}/legal/privacy`, changeFrequency: 'yearly', priority: 0.2 },
+    { url: `${origin}/legal/terms`, changeFrequency: 'yearly', priority: 0.2 },
+    ...blogs.map(blog => ({ url: `${origin}/blog/${blog.slug}`, lastModified: new Date(blog.date), changeFrequency: 'monthly' as const, priority: 0.6 })),
+    ...profiles,
+  ];
 }

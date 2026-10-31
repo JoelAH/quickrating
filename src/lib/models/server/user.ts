@@ -1,10 +1,11 @@
 import "server-only";
+import CONSTANTS from "@/lib/constants";
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
 export const DefaultUserSettings = {
-  reviewLimit: 3,
+  reviewLimit: CONSTANTS.freeReviewLimit,
   allowPublish: false,
   allowNotifications: false,
   poweredBy: true,
