@@ -2,9 +2,9 @@
 
 import { PageContact, SettingsMode } from "@/lib/models/client/page-setting";
 import { isUsernameExist } from "@/lib/services/username";
-import { Box, Grid, TextField, useMediaQuery } from "@mui/material";
+import { TextField } from "@mui/material";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { Sketch } from '@uiw/react-color';
+import Link from "next/link";
 import { CircleStencil, Cropper, CropperPreview, CropperPreviewRef, CropperRef } from 'react-advanced-cropper';
 import "react-advanced-cropper/dist/style.css";
 import { toast, ToastContainer } from 'react-toastify';
@@ -23,6 +23,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { uploadFile } from "@/lib/firebase/image";
 import { onServerSubmit } from "@/app/actions/settingsSubmit";
 import { useFormState, useFormStatus } from "react-dom";
+import CONSTANTS from "@/lib/constants";
 import { User } from "@/lib/models/client/user";
 
 type SettingsProps = {
@@ -47,37 +48,26 @@ const socialInputs: { icon: any, label: string, name: string }[] = [
     { icon: <MusicNoteIcon />, label: 'TikTok URL', name: 'tiktok' }
 ];
 
-function SettingsFormSubmit({ onClientSubmit, submitLoading, classes }: { onClientSubmit: () => Promise<void>, submitLoading: boolean, classes: any }) {
+function SettingsFormSubmit({ onClientSubmit, submitLoading, classes, isUpdate }: { onClientSubmit: () => Promise<void>, submitLoading: boolean, classes: any, isUpdate: boolean }) {
     const { pending } = useFormStatus();
     return (
         <LoadingButton
             onClick={onClientSubmit}
             loading={submitLoading || pending}
             variant="contained"
-            fullWidth
             className={classes.submitButton}
-            sx={{
-                height: '56px',
-                fontSize: '18px',
-                fontWeight: 'bold',
-                backgroundColor: '#FBBC04',
-                borderRadius: '8px',
-                textTransform: 'none',
-                '&:hover': {
-                    backgroundColor: '#d18800'
-                }
-            }}
         >
-            <span>Submit</span>
+            <span>{isUpdate ? 'Save changes' : 'Create my review page'} <span aria-hidden="true">↗</span></span>
         </LoadingButton>
     )
 }
 
 const SettingsForm: React.FC<SettingsProps> = ({ mode, user }) => {
-    const isMobile = useMediaQuery('(max-width:768px)');
     const [state, formAction] = useFormState(onServerSubmit, {});
     const [submitLoading, setSubmitLoading] = useState<boolean>(false);
-    const [username, setUsername] = useState<string>("");
+    const [username, setUsername] = useState<string>(user?.customLink || "");
+    const [draftName, setDraftName] = useState(user?.businessName || "");
+    const [draftGreeting, setDraftGreeting] = useState(user?.greeting || "");
     const [usernameExists, setusernameExists] = useState<boolean>(false);
     const [isUsernameValid, setIsUsernameValid] = useState<boolean>(true);
     const [hex, setHex] = useState(user?.themeColor || "#fbbc04");
@@ -159,6 +149,7 @@ const SettingsForm: React.FC<SettingsProps> = ({ mode, user }) => {
     }, [state])
 
     async function onClientSubmit() {
+        if (!formRef.current?.reportValidity() || !isUsernameValid || usernameExists) return;
         setSubmitLoading(true);
         const blob = await getImageBlob();
 
@@ -173,6 +164,8 @@ const SettingsForm: React.FC<SettingsProps> = ({ mode, user }) => {
                 toast.error("Something went wrong while uploading image", {
                     position: "top-right"
                 });
+                setSubmitLoading(false);
+                return;
             }
         }
         setTimeout(() => {
@@ -182,146 +175,31 @@ const SettingsForm: React.FC<SettingsProps> = ({ mode, user }) => {
     }
 
     return (
-        <Grid container spacing={2} sx={isMobile ? {} : { marginTop: 2 }}>
-            <ToastContainer />
-            <Grid item xs={12}>
-                <form action={formAction} ref={formRef}>
-                    <Box className={classes.boxControl}>
-                        <h3>1. Enter Business Name<sup>*</sup></h3>
-                        <TextField
-                            defaultValue={user?.businessName || ''}
-                            name="buisnessName"
-                            variant="outlined"
-                            placeholder="Your business name"
-                            inputProps={{ maxLength: 100 }}
-                            fullWidth
-                            required />
-                    </Box>
-                    <Box className={classes.boxControl}>
-                        <h3>2. What would you like your page link to look like? Enter a unique name.<sup>*</sup></h3>
-                        <TextField
-                            defaultValue={user?.customLink || ''}
-                            label="quickrating.page/"
-                            name="username"
-                            variant="outlined"
-                            inputProps={{ maxLength: 50 }}
-                            InputLabelProps={{ required: false }}
-                            fullWidth
-                            onKeyUp={(e) => setUsername((e.target as HTMLInputElement)?.value || '')}
-                            error={usernameExists || !isUsernameValid}
-                            helperText={
-                                ((mode === SettingsMode.Create && usernameExists) || !isUsernameValid) &&
-                                <span>
-                                    {
-                                        mode === SettingsMode.Create && usernameExists && 'This username is already taken'
-                                    }
-                                    {
-                                        !isUsernameValid && 'Use only alphanumeric characters (a-z and 0-9)'
-                                    }
-                                </span>
-                            }
-                            required />
-                    </Box>
-                    <Box className={classes.boxControl}>
-                        <h3>3. Enter a custom greeting</h3>
-                        <TextField
-                            defaultValue={user?.greeting || ''}
-                            name="greeting"
-                            variant="outlined"
-                            placeholder="Welcome to our review's page"
-                            inputProps={{ maxLength: 100 }}
-                            fullWidth />
-                    </Box>
-                    <Box className={classes.boxControl}>
-                        <h3>4. Pick a color for your page&apos;s theme</h3>
-                        <input name="color" type="hidden" value={hex} />
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} md={6}>
-                                <div className={classes.colorPickerContainer}>
-                                    <Sketch
-                                        color={hex}
-                                        onChange={(color) => {
-                                            setHex(color.hex);
-                                        }}
-                                    />
-                                </div>
-                            </Grid>
-                            <Grid item xs={12} md={2}>
-                                <div className={classes.colorChosen} style={{ backgroundColor: hex }}></div>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                    <Box className={classes.boxControl}>
-                        <h3>5. Upload your business&apos; logo</h3>
-                        <input name="logoUrl" type="hidden" ref={imageUrlRef} />
-                        <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <input type="file" accept="image/*" onChange={onLoadImage} />
-                            </Grid>
-                            <Grid item xs={12} md={8}>
-                                <Box sx={{ width: 300, height: 300, position: 'relative' }}>
-                                    <Cropper
-                                        className={classes.cropperBox}
-                                        src={image && image.src}
-                                        onUpdate={onImageUpdate}
-                                        stencilComponent={CircleStencil}
-                                        stencilProps={{
-                                            aspectRatio: 1 / 1
-                                        }}
-                                    />
-                                </Box>
-                            </Grid>
-                            <Grid item xs={12} md={4}>
-                                {
-                                    !!user?.imageUrl && !image?.src ?
-                                        <img src={user?.imageUrl} className={classes.croppedImage} /> :
-                                        <CropperPreview
-                                            ref={previewRef}
-                                            className={classes.croppedImage}
-                                        />
-                                }
-                            </Grid>
-                        </Grid>
-                    </Box>
-                    <Box className={classes.boxControl}>
-                        <h3>5. Add contact information (Optional)</h3>
-                        <Grid container spacing={2}>
-                            {
-                                socialInputs.map(social => (
-                                    <Grid key={social.name} container item xs={12} sx={{ alignItems: 'center' }}>
-                                        <Grid item xs={1}>
-                                            {social.icon}
-                                        </Grid>
-                                        <Grid item xs={11}>
-                                            <TextField
-                                                defaultValue={user?.contact?.[social.name as keyof PageContact] || ''}
-                                                name={social.name}
-                                                variant="outlined"
-                                                label={social.label}
-                                                inputProps={{ maxLength: 100 }}
-                                                fullWidth />
-                                        </Grid>
-                                    </Grid>
-                                ))
-                            }
-                        </Grid>
-                    </Box>
-                    <Box className={classes.boxControl}>
-                        <SettingsFormSubmit onClientSubmit={onClientSubmit} submitLoading={submitLoading} classes={classes} />
-                    </Box>
-                    {
-                        state?.errors?.length > 0 && (
-                            <Box sx={{ marginTop: 2 }}>
-                                <ul>
-                                    {state.errors.map((error: string) => <li key={error} className={classes.errorText}>{error}</li>)}
-                                </ul>
-                            </Box>
-                        )
-                    }
-                </form>
-            </Grid>
-        </Grid>
-    )
+        <div className={classes.editor}>
+            <form action={formAction} ref={formRef} className={classes.form}>
+                <ToastContainer />
+                <section className={classes.section}>
+                    <div className={classes.sectionTitle}><span>01</span><div><h2>The essentials</h2><p>Introduce your business and choose a link to share.</p></div></div>
+                    <div className={classes.boxControl}><TextField label="Business name" defaultValue={user?.businessName || ''} onChange={e => setDraftName(e.target.value)} name="buisnessName" inputProps={{ maxLength: 100 }} fullWidth required /></div>
+                    <div className={classes.boxControl}><TextField label="Your page link" name="username" value={username} onChange={e => setUsername(e.target.value)} inputProps={{ maxLength: 50 }} fullWidth required error={usernameExists || !isUsernameValid} helperText={!isUsernameValid ? 'Use letters and numbers only.' : usernameExists ? 'This page link is already taken.' : `quickrating.page/${username || 'yourbusiness'}`} /></div>
+                    <div className={classes.boxControl}><TextField label="Welcome message (optional)" name="greeting" defaultValue={user?.greeting || ''} onChange={e => setDraftGreeting(e.target.value)} placeholder="A few words to welcome your customers" inputProps={{ maxLength: 100 }} fullWidth /></div>
+                </section>
+                <section className={classes.section}>
+                    <div className={classes.sectionTitle}><span>02</span><div><h2>A little personality</h2><p>Bring your brand colors and logo along.</p></div></div>
+                    <div className={classes.colorRow}><input id="theme-color" type="color" value={hex} onChange={e => setHex(e.target.value)} /><div><label htmlFor="theme-color">Brand color</label><p>{hex.toUpperCase()} · Used for accents and buttons</p></div><input name="color" type="hidden" value={hex} /></div>
+                    <div className={classes.logoUpload}><label htmlFor="business-logo">Business logo <span>Optional</span></label><p>A square image works best. Adjust the crop after choosing a file.</p><input id="business-logo" type="file" accept="image/*" onChange={onLoadImage} /><input name="logoUrl" type="hidden" ref={imageUrlRef} defaultValue={user?.imageUrl || ''} /></div>
+                    {image && <div className={classes.cropLayout}><div><Cropper className={classes.cropperBox} src={image.src} onUpdate={onImageUpdate} stencilComponent={CircleStencil} stencilProps={{ aspectRatio: 1 }} /></div><CropperPreview ref={previewRef} className={classes.croppedImage} /></div>}
+                </section>
+                <section className={classes.section}>
+                    <div className={classes.sectionTitle}><span>03</span><div><h2>Keep the conversation going</h2><p>All optional. Add the places your customers can find you.</p></div></div>
+                    <div className={classes.contactFields}>{socialInputs.map(social => <div key={social.name} className={classes.boxControl}><TextField defaultValue={user?.contact?.[social.name as keyof PageContact] || ''} name={social.name} label={social.label} inputProps={{ maxLength: 100 }} InputProps={{ startAdornment: <span className={classes.fieldIcon}>{social.icon}</span> }} fullWidth /></div>)}</div>
+                </section>
+                {state?.errors?.length > 0 && <div className={classes.errorBox} role="alert"><strong>A few details need your attention.</strong><ul>{state.errors.map((error: string) => <li key={error}>{error}</li>)}</ul></div>}
+                <div className={classes.saveBar}><p>{mode === SettingsMode.Create ? `Ready when you are. Your first ${CONSTANTS.freeReviewLimit} reviews are free.` : 'Changes appear on your public page after saving.'}</p><SettingsFormSubmit onClientSubmit={onClientSubmit} submitLoading={submitLoading} classes={classes} isUpdate={mode === SettingsMode.Update} /></div>
+            </form>
+            <aside className={classes.preview}><p className={classes.previewLabel}>A LITTLE PREVIEW</p><div className={classes.previewCard}><div className={classes.previewAccent} style={{ backgroundColor: hex }} /><div className={classes.previewBody}>{user?.imageUrl && !image ? <img src={user.imageUrl} alt="Your business logo" className={classes.previewLogo} /> : <div className={classes.previewInitial} style={{ borderColor: hex }}>{draftName.trim().charAt(0).toUpperCase() || '✦'}</div>}<h3>{draftName || 'Your business name'}</h3><p>{draftGreeting || 'Your customer stories start here.'}</p><div className={classes.previewReview}><span aria-label="5 stars">★★★★★</span><p>“A kind word from a happy customer could live right here.”</p><small>Illustrative testimonial</small></div></div><div className={classes.previewUrl}>quickrating.page/{username || 'yourbusiness'}</div></div><p className={classes.previewNote}>Your brand. Their words.<br />One simple link to share.</p><Link href="/demo/review-page">Explore an example page ↗</Link></aside>
+        </div>
+    );
 }
 
 export default SettingsForm;

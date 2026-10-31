@@ -63,7 +63,7 @@ function SendCodeForm({ biz, onCodeSent }: { biz: User | TrialPageWithReviews, o
     const [comment, setComment] = useState<string>('');
     const [emailedCode, setEmailedCode] = useState<boolean>(false);
 
-    const [isValidPreCode, setIsValidPreCode] = useState<boolean>(false);
+    const isValidPreCode = !!email && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && !!name.trim() && !!comment.trim();
     
     // Detect if this is a trial page or regular page
     const isTrial = isTrialPage(biz);
@@ -73,17 +73,6 @@ function SendCodeForm({ biz, onCodeSent }: { biz: User | TrialPageWithReviews, o
     const isMobile = useMediaQuery('(max-width:768px)');
 
     useEffect(() => {
-        if (
-            !!email &&
-            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) &&
-            !!name &&
-            !!comment
-        ) {
-            setIsValidPreCode(true);
-        }
-    }, [email, name, comment])
-
-    useEffect(() => {
         if (state?.success && state?.id) {
             setEmailedCode(true);
             onCodeSent(state.id as string, true);
@@ -91,8 +80,8 @@ function SendCodeForm({ biz, onCodeSent }: { biz: User | TrialPageWithReviews, o
     }, [state])
 
     return (
-        <Grid item xs={12} sx={{ margin: isMobile ? '0 15px' : '0 auto' }}>
-            <form style={{ marginTop: '40px' }} action={formAction}>
+        <Grid item xs={12} sx={{ margin: '0 auto', width: '100%' }}>
+            <form style={{ marginTop: '8px' }} action={formAction}>
                 <input type="hidden" name="id" value={biz._id.toString()} />
                 <Grid item xs={12} className={classes.gridrow}>
                     <TextField
@@ -127,14 +116,15 @@ function SendCodeForm({ biz, onCodeSent }: { biz: User | TrialPageWithReviews, o
                         disabled={emailedCode}
                         placeholder="Share details of your own experience (Max 1000 characters)"
                         maxLength={1000}
-                        style={{ width: '98%' }}
+                        style={{ width: '100%' }}
+                        aria-label="Your experience"
                         required>
                     </textarea>
                 </Grid>
                 <Grid item xs={12}>
                     <div className={classes.emailInstructions}>
                         Please provide your email address for verification.
-                        We&apos;ll send a unique code to this email to ensure the authenticity of your review and protect the integrity of our platform.
+                        We&apos;ll send a code to confirm access to your inbox. Your email address won&apos;t be shown on this page.
                     </div>
                 </Grid>
                 <Grid item xs={12} className={classes.gridrow}>
@@ -182,7 +172,7 @@ function ConfirmCode({ biz, reviewId, onReviewDone }: { biz: User | TrialPageWit
     }, [state])
 
     return (
-        <Grid item xs={12} sx={{ margin: isMobile ? '0 15px' : '0 auto' }}>
+        <Grid item xs={12} sx={{ margin: '0 auto', width: '100%' }}>
             <form action={formAction}>
                 <input type="hidden" name="pageId" value={biz._id.toString()} />
                 <input type="hidden" name="reviewId" value={reviewId} />
@@ -246,13 +236,14 @@ export default function SubmitReview({ biz }: { biz: (User | TrialPageWithReview
             <ToastContainer />
             {
                 !biz.maxedReviews && (
-                    <Grid item xs={12} className={classes.textCenter} sx={{ marginTop: biz.reviews?.length ? 5 : 0 }}>
+                    <Grid item xs={12} className={classes.textCenter} sx={{ marginTop: 0, marginBottom: 3, textAlign: 'left' }}>
                         <Button
-                            onClick={() => setCanWriteReview(true)}
+                            onClick={() => { setCanWriteReview(!canWriteReview); if (canWriteReview) { setCodeSent(false); setReviewId(''); } }}
+                            aria-expanded={canWriteReview}
                             className={classes.writeReviewBtn}
                             sx={{ 
                                 backgroundColor: `${biz.themeColor}`,
-                                color: 'white',
+                                color: getColorContrast(biz.themeColor || '#f6c345'),
                                 borderColor: `${biz.themeColor}`,
                                 '&:hover': {
                                     backgroundColor: `${biz.themeColor}`,
@@ -264,14 +255,14 @@ export default function SubmitReview({ biz }: { biz: (User | TrialPageWithReview
                             variant="contained"
                             size="large"
                             endIcon={<EditIcon />}>
-                            Write A Review
+                            {canWriteReview ? 'Close review form' : 'Share your experience'}
                         </Button>
                     </Grid>
                 )
             }
             {
                 (canWriteReview && !isDoneReview) && (
-                    <Grid item container xs={12} md={4} sx={{ margin: '0 auto' }}>
+                    <Grid item container xs={12} className={classes.formPanel} sx={{ margin: '0 0 24px', width: '100%' }}>
                         <SendCodeForm biz={biz} onCodeSent={onCodeSent} />
                         {
                             codeSent && (

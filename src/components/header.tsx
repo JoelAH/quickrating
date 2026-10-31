@@ -1,46 +1,38 @@
-"use client"
+'use client';
 
-import CONSTANTS from "@/lib/constants";
-import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
-import Link from "next/link";
+import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { signOut } from '@/lib/firebase/auth';
+import { signOutOfServer } from '@/lib/services/auth';
 import classes from './header.module.scss';
-import { signOut } from "@/lib/firebase/auth";
-import { signOutOfServer } from "@/lib/services/auth";
-import { useRouter } from "next/navigation";
 
 export default function Header() {
-    const router = useRouter();
-    
-    const onSignOut = () => {
-        signOut()
-            .then(async () => {
-                console.log('signingout');
-                await signOutOfServer();
-                router.replace('/auth/login');
-            })
-            .catch((e) => console.error(e));
+  const pathname = usePathname();
+  const router = useRouter();
+  const [leaving, setLeaving] = useState(false);
+  const [error, setError] = useState('');
+  async function onSignOut() {
+    setLeaving(true);
+    try {
+      await signOut();
+      await signOutOfServer();
+      router.replace('/auth/login');
+    } catch {
+      setLeaving(false);
+      setError('Could not sign out. Please try again.');
     }
-
-    return (
-        <Box sx={{ flexGrow: 1, marginBottom: 1 }}>
-            <AppBar position="static" color={'transparent'} >
-                <Toolbar>
-                    <Image src={'/star.png'} alt={'QuickRating'} width={40} height={40} priority />
-                    <Typography className={classes.brand} variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        {CONSTANTS.appName}
-                    </Typography>
-                    <Box sx={{ float: 'right', marginLeft: 'auto' }}>
-                        <Link href={'/main/dashboard'} passHref>
-                            <Button color="info">Dashboard</Button>
-                        </Link>
-                        <Link href={'/main/update'} passHref>
-                            <Button color="info" sx={{ borderRadius: 10 }}>Edit</Button>
-                        </Link>
-                        <Button color="info" onClick={onSignOut}>Sign Out</Button>
-                    </Box>
-                </Toolbar>
-            </AppBar>
-        </Box>
-    )
+  }
+  return <header className={classes.header}>
+    <div className={classes.inner}>
+      <Link href="/" className={classes.brand}><Image src="/star.png" alt="" width={27} height={27} />QuickRating.</Link>
+      <nav aria-label="Your workspace">
+        <Link href="/main/dashboard" aria-current={pathname === '/main/dashboard' ? 'page' : undefined}>Overview</Link>
+        <Link href="/main/update" aria-current={pathname === '/main/update' ? 'page' : undefined}>Edit page</Link>
+      </nav>
+      <button type="button" onClick={onSignOut} disabled={leaving}>{leaving ? 'Signing out…' : 'Sign out'} <span aria-hidden="true">↗</span></button>
+    </div>
+    {error && <p role="alert" className={classes.error}>{error}</p>}
+  </header>;
 }

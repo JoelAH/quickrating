@@ -2,7 +2,9 @@ import SettingsForm from "@/components/settingsForm";
 import { getUser } from "@/lib/db/user";
 import { SettingsMode } from "@/lib/models/client/page-setting";
 import { checkAuth } from "@/lib/services/middleware";
-import { Container, Grid } from "@mui/material";
+import Link from "next/link";
+import Image from "next/image";
+import classes from "@/components/workspace.module.scss";
 import { redirect } from "next/navigation";
 
 export default async function Setup() {
@@ -12,39 +14,11 @@ export default async function Setup() {
         return redirect('/main/dashboard');
     }
 
-    return (
-       <Container 
-            maxWidth="md" 
-            sx={{ 
-                padding: { xs: 2, sm: 3, md: 4 },
-                marginTop: { xs: 2, sm: 3, md: 4 },
-                marginBottom: { xs: 2, sm: 3, md: 4 },
-                backgroundColor: '#fff',
-                border: '1px solid #e0e0e0',
-                borderRadius: '8px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
-            }}
-        >
-            <Grid container spacing={2}>
-                <Grid item xs={12} sx={{ textAlign: 'center', marginBottom: { xs: 2, md: 3 } }}>
-                    <h1 style={{ 
-                        fontSize: '36px', 
-                        fontWeight: 'bold',
-                        margin: 0,
-                        color: '#222428'
-                    }} className="setupPageTitle">Set up your page</h1>
-                </Grid>
-                <Grid item xs={12} sx={{ textAlign: 'center', marginBottom: { xs: 3, md: 4 } }}>
-                    <p style={{ 
-                        fontSize: '20px', 
-                        fontWeight: 'normal',
-                        lineHeight: '1.5',
-                        color: '#555',
-                        margin: 0
-                    }} className="setupPageSubtitle">Let&apos;s get you started by providing some information about your business. This helps with customizing your page to fit your brand!</p>
-                </Grid>
-            </Grid>
-            <SettingsForm mode={ SettingsMode.Create }></SettingsForm>
-       </Container>
-    )
+    return <div className={classes.shell}>
+        <header className={classes.setupHeader}><Link href="/"><Image src="/star.png" alt="" width={27} height={27} />QuickRating.</Link></header>
+        <main className={classes.container}>
+            <div className={classes.heading}><div><p className={classes.eyebrow}>MAKE YOURSELF AT HOME</p><h1>Good experiences deserve a page.</h1><p>Start with the essentials. You can change the details whenever you like.</p></div></div>
+            <SettingsForm mode={SettingsMode.Create} />
+        </main>
+    </div>;
 }
