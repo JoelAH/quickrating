@@ -24,7 +24,7 @@
     "@vercel/og": "^0.8.5",
     "dayjs": "^1.11.12",
     "fakefilter": "^0.1.935",
-    "firebase": "^10.12.4",
+    "firebase": "^12.19.0",
     "firebase-admin": "^12.2.0",
     "mongoose": "^8.5.2",
     "next": "14.2.35",
