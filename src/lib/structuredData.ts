@@ -1,3 +1,4 @@
+import CONSTANTS from "./constants";
 import { Review } from "./models/client/review";
 import { User } from "./models/client/user";
 import { TrialPageWithReviews } from "./models/client/trial-page";
@@ -28,12 +29,7 @@ export function generateWebsiteSchema() {
     '@type': 'WebSite',
     name: 'QuickRating',
     url: 'https://quickrating.page',
-    description: 'Collect and display customer reviews for your small business',
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: 'https://quickrating.page/search?q={search_term_string}',
-      'query-input': 'required name=search_term_string'
-    }
+    description: 'Collect and display customer reviews for your small business'
   };
 }
 
@@ -50,32 +46,28 @@ export function generateSoftwareApplicationSchema() {
         price: '0',
         priceCurrency: 'USD',
         name: 'Basic Plan',
-        description: '3 reviews, auto-publish, customized page'
+        description: `${CONSTANTS.freeReviewLimit} reviews, auto-publish, customized page`
       },
       {
         '@type': 'Offer',
-        price: '7',
+        price: String(CONSTANTS.standardMonthlyPrice),
         priceCurrency: 'USD',
         name: 'Standard Plan',
         description: 'Unlimited reviews, moderation, no branding'
       }
-    ],
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.8',
-      ratingCount: '150'
-    }
+    ]
   };
 }
 
 export function generateLocalBusinessSchema(page: User | TrialPageWithReviews) {
   const reviews = page.reviews || [];
-  const avgRating = reviews.length > 0 
-    ? reviews.reduce((sum, r) => sum + (r.rating || 0), 0) / reviews.length 
+  const ratedReviews = reviews.filter(r => typeof r.rating === 'number' && r.rating >= 1 && r.rating <= 5);
+  const avgRating = ratedReviews.length > 0
+    ? ratedReviews.reduce((sum, r) => sum + r.rating!, 0) / ratedReviews.length
     : 0;
 
   // Determine the correct URL based on page type
-  const pageUrl = 'customLink' in page 
+  const pageUrl = 'customLink' in page
     ? `https://quickrating.page/${page.customLink}`
     : `https://quickrating.page/${'username' in page ? page.username : ''}`;
 
@@ -90,7 +82,7 @@ export function generateLocalBusinessSchema(page: User | TrialPageWithReviews) {
       aggregateRating: {
         '@type': 'AggregateRating',
         ratingValue: avgRating.toFixed(1),
-        reviewCount: reviews.length,
+        ratingCount: ratedReviews.length,
         bestRating: '5',
         worstRating: '1'
       }
@@ -110,12 +102,14 @@ export function generateReviewSchema(review: Review | TrialReview, businessName:
       '@type': 'Person',
       name: review.reviewer.name
     },
-    reviewRating: {
-      '@type': 'Rating',
-      ratingValue: review.rating || 5,
-      bestRating: '5',
-      worstRating: '1'
-    },
+    ...(typeof review.rating === 'number' && review.rating >= 1 && review.rating <= 5 ? {
+      reviewRating: {
+        '@type': 'Rating',
+        ratingValue: review.rating,
+        bestRating: '5',
+        worstRating: '1'
+      }
+    } : {}),
     reviewBody: review.comment,
     datePublished: review.createdAt
   };

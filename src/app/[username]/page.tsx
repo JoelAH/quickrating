@@ -15,26 +15,27 @@ import { generateLocalBusinessSchema, generateReviewSchema } from "@/lib/structu
 
 export async function generateMetadata({ params }: { params: { username: string } }): Promise<Metadata> {
     await dbConnect();
-    
+
     // Check User collection first
     let userPage = await getReviewPage(params.username);
     let trialPage: TrialPageWithReviews | null = null;
-    
+
     // If not found in User collection, check TrialPage collection
     if (!userPage) {
         trialPage = await getTrialPageWithReviews(params.username);
     }
-    
+
     const page = userPage || trialPage;
 
     if (page) {
         const reviewCount = page.reviews?.length || 0;
-        const avgRating = reviewCount > 0 
-            ? (page.reviews!.reduce((sum, r) => sum + (r.rating ?? 0), 0) / reviewCount).toFixed(1)
+        const ratedReviews = (page.reviews || []).filter(r => typeof r.rating === 'number' && r.rating >= 1 && r.rating <= 5);
+        const avgRating = ratedReviews.length > 0
+            ? (ratedReviews.reduce((sum, r) => sum + r.rating!, 0) / ratedReviews.length).toFixed(1)
             : null;
-        
+
         const description = page.greeting || `Read ${reviewCount} customer review${reviewCount !== 1 ? 's' : ''} for ${page.businessName}. ${avgRating ? `Average rating: ${avgRating}/5 stars.` : ''} Share your experience!`;
-        
+
         return {
             title: `${page.businessName} Reviews ${avgRating ? `- ${avgRating}★` : ''} | Customer Testimonials`,
             description,
@@ -69,39 +70,39 @@ export async function generateMetadata({ params }: { params: { username: string 
             description: 'This review page could not be found. Create your own review page with QuickRating.'
         }
     }
-    
+
 }
 
 export default async function RatingPage({ params }: { params: { username: string } }) {
     await dbConnect();
-    
+
     // Check User collection first
     let userPage = await getReviewPage(params.username);
     let trialPage: TrialPageWithReviews | null = null;
     let isTrialPage = false;
-    
+
     // If not found in User collection, check TrialPage collection
     if (!userPage) {
         trialPage = await getTrialPageWithReviews(params.username);
         isTrialPage = true;
     }
-    
+
     // Update hit counter for whichever type was found
     if (userPage) {
         updateHit(params.username);
     } else if (trialPage) {
         updateTrialPageHit(params.username);
     }
-    
+
     // Use whichever page was found
     const page = userPage || trialPage;
-    
+
     // Check if trial page is expired
     const isExpired = isTrialPage && trialPage && trialPage.expired;
 
     // Generate structured data
     const businessSchema = page ? generateLocalBusinessSchema(page) : null;
-    const reviewSchemas = page?.reviews?.map(review => 
+    const reviewSchemas = page?.reviews?.map(review =>
         generateReviewSchema(review, page.businessName)
     ) || [];
 
@@ -131,13 +132,13 @@ export default async function RatingPage({ params }: { params: { username: strin
                     (
                         <>
                             {businessSchema && (
-                                <script 
+                                <script
                                     type="application/ld+json"
                                     dangerouslySetInnerHTML={{ __html: JSON.stringify(businessSchema) }}>
                                 </script>
                             )}
                             {reviewSchemas.map((schema, index) => (
-                                <script 
+                                <script
                                     key={index}
                                     type="application/ld+json"
                                     dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}>
@@ -173,32 +174,32 @@ export default async function RatingPage({ params }: { params: { username: strin
                                     {
                                         // Show "Powered by QuickRating" for trial pages or non-subscribed users
                                         (isTrialPage || (!isTrialPage && !(page as User & { isSubscribed?: boolean }).isSubscribed)) && (
-                                            <Grid item xs={12} sx={{ 
-                                                margin: '60px auto 40px', 
-                                                textAlign: 'center', 
-                                                display: 'flex', 
-                                                alignItems: 'center', 
-                                                justifyContent: 'center' 
+                                            <Grid item xs={12} sx={{
+                                                margin: '60px auto 40px',
+                                                textAlign: 'center',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
                                             }}>
-                                                <div style={{ 
-                                                    fontSize: 18, 
+                                                <div style={{
+                                                    fontSize: 18,
                                                     textAlign: 'center',
                                                     color: '#777',
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     gap: '8px'
                                                 }}>
-                                                    <span style={{ fontWeight: 600 }}>Powered By</span> 
-                                                    <Link href={'/'} style={{ 
+                                                    <span style={{ fontWeight: 600 }}>Powered By</span>
+                                                    <Link href={'/'} style={{
                                                         color: '#FBBC04',
                                                         fontWeight: 700,
                                                         textDecoration: 'none',
                                                         display: 'flex',
                                                         alignItems: 'center',
                                                         gap: '6px'
-                                                    }}> 
-                                                        QuickRating 
-                                                        <Image src={'/star.png'} alt="QuickRating Logo" width={22} height={22} />  
+                                                    }}>
+                                                        QuickRating
+                                                        <Image src={'/star.png'} alt="QuickRating Logo" width={22} height={22} />
                                                     </Link>
                                                 </div>
                                             </Grid>

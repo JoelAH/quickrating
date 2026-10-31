@@ -8,7 +8,7 @@ A review management platform for small businesses and online entrepreneurs who n
 - **Trial Pages**: Test the platform without signing up (3 reviews, 14-day expiration)
 - **Review Management**: Collect and manage customer reviews with email verification
 - **Customizable Branding**: Colors, images, business info, and contact details
-- **Two-Tier Pricing**: Free (3 reviews, auto-publish) and Standard ($7/month, unlimited reviews with moderation)
+- **Two-Tier Pricing**: Free (15 reviews, auto-publish) and Standard ($7/month, unlimited reviews with moderation)
 
 ## Getting Started
 

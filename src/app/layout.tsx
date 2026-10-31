@@ -25,8 +25,7 @@ export const metadata: Metadata = {
     default: 'QuickRating - Customer Review Pages for Small Businesses',
     template: '%s | QuickRating'
   },
-  description: 'Collect and display customer reviews with custom landing pages. Perfect for Instagram businesses and online entrepreneurs without websites. Free plan available.',
-  keywords: ['customer reviews', 'review page', 'small business', 'Instagram business', 'online reviews', 'social proof', 'testimonials', 'review management'],
+  description: 'Collect customer reviews without a website. Create a branded page for your Instagram or WhatsApp business, with 15 reviews free.',
   authors: [{ name: 'QuickRating' }],
   creator: 'QuickRating',
   publisher: 'QuickRating',
@@ -42,25 +41,18 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-      title: 'QuickRating - Customer Review Pages for Small Businesses',
-      description: 'Collect and display customer reviews with custom landing pages. Perfect for Instagram businesses and online entrepreneurs.',
-      url: 'https://quickrating.page',
-      siteName: 'QuickRating',
-      locale: 'en_US',
-      type: 'website',
-      images: [{
-        url: 'https://firebasestorage.googleapis.com/v0/b/pintratings.appspot.com/o/images%2FQR-Homepage.png?alt=media&token=70d3a00a-2992-4e9c-b5f0-98abe58e5d43',
-        width: 1200,
-        height: 630,
-        alt: 'QuickRating - Review Management Platform'
-      }]
+    title: 'QuickRating — Customer Reviews Without a Website',
+    description: 'Give customer feedback a home. Create a branded review page and share it on Instagram, WhatsApp, or email.',
+    siteName: 'QuickRating',
+    locale: 'en_US',
+    type: 'website',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'QuickRating customer review pages' }],
   },
   twitter: {
-      card: 'summary_large_image',
-      title: 'QuickRating - Customer Review Pages for Small Businesses',
-      description: 'Collect and display customer reviews with custom landing pages. Perfect for Instagram businesses and online entrepreneurs.',
-      creator: '@QuickRating',
-      images: ['https://firebasestorage.googleapis.com/v0/b/pintratings.appspot.com/o/images%2FQR-Homepage.png?alt=media&token=70d3a00a-2992-4e9c-b5f0-98abe58e5d43']
+    card: 'summary_large_image',
+    title: 'QuickRating — Customer Reviews Without a Website',
+    description: 'Create a branded customer review page. Start with 15 reviews free.',
+    images: ['/opengraph-image'],
   },
   verification: {
     // Add verification codes when available

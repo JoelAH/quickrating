@@ -1,4 +1,5 @@
 import "server-only";
+import CONSTANTS from "../constants";
 
 import { isSubcriptionValid, Payment } from "../models/server/payment";
 import { User } from "../models/server/user";
@@ -219,9 +220,9 @@ export const getReviewPage = async (username: string) => {
     }
 
     let maxedReviews = false;
-    if (!isSubscribed && (result.reviews?.length && result.reviews.length >= 3)) {
+    if (!isSubscribed && (result.reviews?.length && result.reviews.length >= CONSTANTS.freeReviewLimit)) {
         maxedReviews = true;
-        result.reviews = result.reviews.slice(-3);
+        result.reviews = result.reviews.slice(-CONSTANTS.freeReviewLimit);
     }
 
     const returned = {

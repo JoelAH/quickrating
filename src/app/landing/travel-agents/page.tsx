@@ -6,7 +6,7 @@ import CONSTANTS from '@/lib/constants';
 import classes from './page.module.scss';
 
 export const metadata: Metadata = {
-  title: 'QuickRating for Travel Agents - Close More Bookings with Reviews',
+  title: 'Customer Review Pages for Independent Travel Agents',
   description: 'Independent travel agents: Build trust instantly with a personal review page. Share one link to prove credibility and close more cruise, honeymoon, and group trip bookings.',
   keywords: 'travel agent reviews, independent travel agent, travel advisor reviews, cruise reviews, honeymoon reviews, travel agent credibility, Instagram travel agent, WhatsApp travel sales',
   openGraph: {
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     siteName: 'QuickRating',
     type: 'website',
     images: [{
-      url: 'https://quickrating.page/travel-agents-og.png',
+      url: 'https://quickrating.page/opengraph-image',
       width: 1200,
       height: 630,
       alt: 'QuickRating for Travel Agents'
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: 'QuickRating for Travel Agents',
     description: 'Close more bookings with a personal review page',
     creator: '@QuickRating',
-    images: ['https://quickrating.page/travel-agents-og.png']
+    images: ['https://quickrating.page/opengraph-image']
   },
   alternates: {
     canonical: 'https://quickrating.page/landing/travel-agents'
@@ -88,7 +88,7 @@ export default function TravelAgentsLanding() {
               QuickRating gives independent travel agents a personal reviews page they can share with hesitant clients to prove credibility and close deals faster.
             </p>
             <div className={classes.heroButtons}>
-              <Link href="/travelrs" passHref>
+              <Link href="/demo/review-page" passHref>
                 <Button 
                   variant="contained" 
                   className={classes.heroPrimaryButton}
@@ -101,9 +101,9 @@ export default function TravelAgentsLanding() {
                 <Button 
                   variant="outlined" 
                   className={classes.heroSecondaryButton}
-                  aria-label="Get free setup for your review page"
+                  aria-label="Create your free page for your review page"
                 >
-                  Get free setup
+                  Create your free page
                 </Button>
               </Link>
             </div>
@@ -147,7 +147,7 @@ export default function TravelAgentsLanding() {
                 Public reviews page branded to you
               </li>
               <li className={classes.solutionBenefit}>
-                Reviews tagged by trip type (cruise, group trip, honeymoon, etc.)
+                Your business information and contact links alongside your reviews
               </li>
               <li className={classes.solutionBenefit}>
                 Easy to share on Instagram, WhatsApp, and email
@@ -237,7 +237,7 @@ export default function TravelAgentsLanding() {
               </Button>
             </Link>
             <p className={classes.finalCTASubtext}>
-              No credit card required • Free setup
+              {CONSTANTS.freeReviewLimit} reviews free • No credit card required
             </p>
           </div>
         </section>

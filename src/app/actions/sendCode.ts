@@ -1,5 +1,6 @@
 "use server";
 
+import CONSTANTS from "@/lib/constants";
 import dbConnect from "@/lib/db/db";
 import { getReviews } from "@/lib/db/review";
 import { getUserWithPayment } from "@/lib/db/user";
@@ -43,7 +44,7 @@ export async function onInitiateCode(prevState: any, formData: FormData): Promis
     }
 
     const pageReviews = await getReviews(id);
-    if (!page.isSubscribed && pageReviews?.length >= 3) {
+    if (!page.isSubscribed && pageReviews?.length >= CONSTANTS.freeReviewLimit) {
         return {
             error: 'This page cannot accept anymore reviews'
         }
