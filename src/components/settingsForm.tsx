@@ -5,6 +5,8 @@ import { isUsernameExist } from "@/lib/services/username";
 import { TextField } from "@mui/material";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import IconGrid from "./iconGrid";
 import { CircleStencil, Cropper, CropperPreview, CropperPreviewRef, CropperRef } from 'react-advanced-cropper';
 import "react-advanced-cropper/dist/style.css";
 import { toast, ToastContainer } from 'react-toastify';
@@ -68,6 +70,7 @@ const SettingsForm: React.FC<SettingsProps> = ({ mode, user }) => {
     const [username, setUsername] = useState<string>(user?.customLink || "");
     const [draftName, setDraftName] = useState(user?.businessName || "");
     const [draftGreeting, setDraftGreeting] = useState(user?.greeting || "");
+    const [draftContact, setDraftContact] = useState<PageContact>(() => ({ ...user?.contact }));
     const [usernameExists, setusernameExists] = useState<boolean>(false);
     const [isUsernameValid, setIsUsernameValid] = useState<boolean>(true);
     const [hex, setHex] = useState(user?.themeColor || "#fbbc04");
@@ -78,6 +81,7 @@ const SettingsForm: React.FC<SettingsProps> = ({ mode, user }) => {
     const [cropperRef, setCropperRef] = useState<CropperRef | null>(null);
     const [image, setImage] = useState<ImageMode | null>(null);
     const previewRef = useRef<CropperPreviewRef>(null);
+    const sidebarPreviewRef = useRef<CropperPreviewRef>(null);
 
 
     useEffect(() => {
@@ -97,6 +101,7 @@ const SettingsForm: React.FC<SettingsProps> = ({ mode, user }) => {
 
     const onImageUpdate = (cropper: CropperRef) => {
         previewRef.current?.update(cropper);
+        sidebarPreviewRef.current?.update(cropper);
         setCropperRef(cropper);
     };
 
@@ -187,17 +192,50 @@ const SettingsForm: React.FC<SettingsProps> = ({ mode, user }) => {
                 <section className={classes.section}>
                     <div className={classes.sectionTitle}><span>02</span><div><h2>A little personality</h2><p>Bring your brand colors and logo along.</p></div></div>
                     <div className={classes.colorRow}><input id="theme-color" type="color" value={hex} onChange={e => setHex(e.target.value)} /><div><label htmlFor="theme-color">Brand color</label><p>{hex.toUpperCase()} · Used for accents and buttons</p></div><input name="color" type="hidden" value={hex} /></div>
-                    <div className={classes.logoUpload}><label htmlFor="business-logo">Business logo <span>Optional</span></label><p>A square image works best. Adjust the crop after choosing a file.</p><input id="business-logo" type="file" accept="image/*" onChange={onLoadImage} /><input name="logoUrl" type="hidden" ref={imageUrlRef} defaultValue={user?.imageUrl || ''} /></div>
+                    <div className={classes.logoUpload}>
+                        <label htmlFor="business-logo">Business logo <span>Optional</span></label>
+                        {user?.imageUrl && !image && (
+                            <div className={classes.existingLogo}>
+                                <Image src={user.imageUrl} alt="Current business logo" width={72} height={72} unoptimized className={classes.savedLogo} />
+                                <div><strong>Your current logo</strong><p>Choose a new image to replace it, or keep this one.</p></div>
+                            </div>
+                        )}
+                        <p>A square image works best. Adjust the crop after choosing a file.</p>
+                        <input id="business-logo" type="file" accept="image/*" onChange={onLoadImage} />
+                        <input name="logoUrl" type="hidden" ref={imageUrlRef} defaultValue={user?.imageUrl || ''} />
+                    </div>
                     {image && <div className={classes.cropLayout}><div><Cropper className={classes.cropperBox} src={image.src} onUpdate={onImageUpdate} stencilComponent={CircleStencil} stencilProps={{ aspectRatio: 1 }} /></div><CropperPreview ref={previewRef} className={classes.croppedImage} /></div>}
                 </section>
                 <section className={classes.section}>
                     <div className={classes.sectionTitle}><span>03</span><div><h2>Keep the conversation going</h2><p>All optional. Add the places your customers can find you.</p></div></div>
-                    <div className={classes.contactFields}>{socialInputs.map(social => <div key={social.name} className={classes.boxControl}><TextField defaultValue={user?.contact?.[social.name as keyof PageContact] || ''} name={social.name} label={social.label} inputProps={{ maxLength: 100 }} InputProps={{ startAdornment: <span className={classes.fieldIcon}>{social.icon}</span> }} fullWidth /></div>)}</div>
+                    <div className={classes.contactFields}>{socialInputs.map(social => <div key={social.name} className={classes.boxControl}><TextField value={draftContact[social.name as keyof PageContact] || ''} onChange={event => setDraftContact(current => ({ ...current, [social.name]: event.target.value }))} name={social.name} label={social.label} inputProps={{ maxLength: 100 }} InputProps={{ startAdornment: <span className={classes.fieldIcon}>{social.icon}</span> }} fullWidth /></div>)}</div>
                 </section>
                 {state?.errors?.length > 0 && <div className={classes.errorBox} role="alert"><strong>A few details need your attention.</strong><ul>{state.errors.map((error: string) => <li key={error}>{error}</li>)}</ul></div>}
                 <div className={classes.saveBar}><p>{mode === SettingsMode.Create ? `Ready when you are. Your first ${CONSTANTS.freeReviewLimit} reviews are free.` : 'Changes appear on your public page after saving.'}</p><SettingsFormSubmit onClientSubmit={onClientSubmit} submitLoading={submitLoading} classes={classes} isUpdate={mode === SettingsMode.Update} /></div>
             </form>
-            <aside className={classes.preview}><p className={classes.previewLabel}>A LITTLE PREVIEW</p><div className={classes.previewCard}><div className={classes.previewAccent} style={{ backgroundColor: hex }} /><div className={classes.previewBody}>{user?.imageUrl && !image ? <img src={user.imageUrl} alt="Your business logo" className={classes.previewLogo} /> : <div className={classes.previewInitial} style={{ borderColor: hex }}>{draftName.trim().charAt(0).toUpperCase() || '✦'}</div>}<h3>{draftName || 'Your business name'}</h3><p>{draftGreeting || 'Your customer stories start here.'}</p><div className={classes.previewReview}><span aria-label="5 stars">★★★★★</span><p>“A kind word from a happy customer could live right here.”</p><small>Illustrative testimonial</small></div></div><div className={classes.previewUrl}>quickrating.page/{username || 'yourbusiness'}</div></div><p className={classes.previewNote}>Your brand. Their words.<br />One simple link to share.</p><Link href="/demo/review-page">Explore an example page ↗</Link></aside>
+            <aside className={classes.preview}>
+                <p className={classes.previewLabel}>A LITTLE PREVIEW</p>
+                <div className={classes.previewCard}>
+                    <div className={classes.previewAccent} style={{ backgroundColor: hex }} />
+                    <div className={classes.previewBody}>
+                        {image ? (
+                            <CropperPreview ref={sidebarPreviewRef} className={classes.previewLogo} />
+                        ) : user?.imageUrl ? (
+                            <Image src={user.imageUrl} alt="Your business logo" width={67} height={67} unoptimized className={classes.previewLogo} style={{ borderColor: hex }} />
+                        ) : (
+                            <div className={classes.previewInitial} style={{ borderColor: hex }}>{draftName.trim().charAt(0).toUpperCase() || '✦'}</div>
+                        )}
+                        <h3>{draftName || 'Your business name'}</h3>
+                        <p>{draftGreeting || 'Your customer stories start here.'}</p>
+                        {draftContact.address?.trim() && <p className={classes.previewAddress}><RoomIcon aria-hidden="true" />{draftContact.address}</p>}
+                        <div className={classes.previewContacts}><IconGrid biz={{ contact: draftContact }} /></div>
+                        <div className={classes.previewReview}><span aria-label="5 stars">★★★★★</span><p>“A kind word from a happy customer could live right here.”</p><small>Illustrative testimonial</small></div>
+                    </div>
+                    <div className={classes.previewUrl}>quickrating.page/{username || 'yourbusiness'}</div>
+                </div>
+                <p className={classes.previewNote}>Your brand. Their words.<br />One simple link to share.</p>
+                <Link href="/demo/review-page">Explore an example page ↗</Link>
+            </aside>
         </div>
     );
 }

@@ -28,3 +28,9 @@
 .previewNote { font: italic 17px/1.7 Georgia, serif; color: #7e816e; margin: 23px 0 15px; }
 @media(max-width: 900px) { .editor { grid-template-columns: minmax(0, 1fr) 265px; gap: 20px; } .section { padding: 23px; } .contactFields { grid-template-columns: 1fr; } .saveBar { align-items: flex-start; flex-direction: column; gap: 5px; } }
 @media(max-width: 680px) { .editor { grid-template-columns: 1fr; } .preview { position: static; max-width: 380px; width: 100%; margin: auto; } .section { padding: 24px 20px; } .saveBar .submitButton { width: 100%; } .saveBar { align-items: stretch; } .cropLayout { grid-template-columns: 1fr; } }
+
+.existingLogo { display: flex; align-items: center; gap: 16px; border: 1px solid #e5e7dd; border-radius: 7px; padding: 15px; margin-top: 14px; strong { font-size: 13px; font-weight: 500; } p { margin: 5px 0 0; } }
+.savedLogo { flex-shrink: 0; border: 1px solid #d8ddce; border-radius: 50%; object-fit: cover; }
+.previewLogo { overflow: hidden; display: block; }
+.previewBody .previewAddress { display: flex; align-items: center; justify-content: center; gap: 5px; font-size: 11px; svg { font-size: 14px; flex-shrink: 0; } }
+.previewContacts nav { justify-content: center; gap: 6px; margin-top: 15px; a { padding: 7px 8px; font-size: 10px; } }

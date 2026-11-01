@@ -7,7 +7,6 @@ import XIcon from '@mui/icons-material/X';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import type { User } from '@/lib/models/client/user';
-import type { TrialPageWithReviews } from '@/lib/models/client/trial-page';
 import classes from './bizpage.module.scss';
 
 const channels = [
@@ -21,7 +20,7 @@ const channels = [
   { key: 'tiktok', label: 'TikTok', icon: MusicNoteIcon },
 ] as const;
 
-export default function IconGrid({ biz }: { biz: User | TrialPageWithReviews }) {
+export default function IconGrid({ biz }: { biz: Pick<User, 'contact'> }) {
   return <nav className={classes.contacts} aria-label="Contact this business">{channels.map(({ key, label, icon: Icon }) => {
     const value = biz.contact?.[key]?.trim();
     if (!value) return null;
