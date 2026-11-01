@@ -6,6 +6,7 @@ import type { TrialPageWithReviews } from '@/lib/models/client/trial-page';
 import BizPage from './bizpage';
 import SubmitReview from './submitReview';
 import { ReviewContainer } from './reviewCard';
+import { getPageBackgroundStyle } from '@/lib/pageBackgrounds';
 import classes from '@/app/[username]/userpage.module.scss';
 
 export default function BusinessPageView({ page, trial = false }: { page: (User | TrialPageWithReviews) & { maxedReviews?: boolean }; trial?: boolean }) {
@@ -13,7 +14,7 @@ export default function BusinessPageView({ page, trial = false }: { page: (User 
   const rated = reviews.filter(review => review.rating && review.rating >= 1 && review.rating <= 5);
   const average = rated.length ? (rated.reduce((sum, review) => sum + review.rating!, 0) / rated.length).toFixed(1) : null;
   const branded = trial || !('isSubscribed' in page && page.isSubscribed);
-  return <main className={classes.pageWrapper} style={{ '--business-color': page.themeColor || '#f6c345' } as CSSProperties}>
+  return <main className={classes.pageWrapper} style={{ ...getPageBackgroundStyle('pageBackground' in page ? page.pageBackground : undefined), '--business-color': page.themeColor || '#f6c345' } as CSSProperties}>
     <div className={classes.contentWrapper}>
       <div className={classes.topLine}><span>IN THEIR OWN WORDS</span><span>{reviews.length} customer review{reviews.length === 1 ? '' : 's'}</span></div>
       <BizPage biz={page} />

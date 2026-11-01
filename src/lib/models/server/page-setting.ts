@@ -1,3 +1,4 @@
+import type { PageBackground } from "@/lib/pageBackgrounds";
 import "server-only";
 
 export type PageContact = {
@@ -16,6 +17,7 @@ export type PageSettings = {
     greeting?: string;
     customLink: string;
     themeColor?: string;
+    pageBackground?: PageBackground;
     imageUrl?: string;
     contact?: PageContact
 }

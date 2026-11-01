@@ -25,6 +25,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { uploadFile } from "@/lib/firebase/image";
 import { onServerSubmit } from "@/app/actions/settingsSubmit";
 import { useFormState, useFormStatus } from "react-dom";
+import { PAGE_BACKGROUNDS, getPageBackgroundStyle, normalizePageBackground } from "@/lib/pageBackgrounds";
 import CONSTANTS from "@/lib/constants";
 import { User } from "@/lib/models/client/user";
 
@@ -73,6 +74,7 @@ const SettingsForm: React.FC<SettingsProps> = ({ mode, user }) => {
     const [draftContact, setDraftContact] = useState<PageContact>(() => ({ ...user?.contact }));
     const [usernameExists, setusernameExists] = useState<boolean>(false);
     const [isUsernameValid, setIsUsernameValid] = useState<boolean>(true);
+    const [pageBackground, setPageBackground] = useState(() => normalizePageBackground(user?.pageBackground));
     const [hex, setHex] = useState(user?.themeColor || "#fbbc04");
     const formRef = useRef<HTMLFormElement>(null);
     const imageUrlRef = useRef<HTMLInputElement>(null);
@@ -190,8 +192,22 @@ const SettingsForm: React.FC<SettingsProps> = ({ mode, user }) => {
                     <div className={classes.boxControl}><TextField label="Welcome message (optional)" name="greeting" defaultValue={user?.greeting || ''} onChange={e => setDraftGreeting(e.target.value)} placeholder="A few words to welcome your customers" inputProps={{ maxLength: 100 }} fullWidth /></div>
                 </section>
                 <section className={classes.section}>
-                    <div className={classes.sectionTitle}><span>02</span><div><h2>A little personality</h2><p>Bring your brand colors and logo along.</p></div></div>
+                    <div className={classes.sectionTitle}><span>02</span><div><h2>A little personality</h2><p>Bring your brand colors, background, and logo along.</p></div></div>
                     <div className={classes.colorRow}><input id="theme-color" type="color" value={hex} onChange={e => setHex(e.target.value)} /><div><label htmlFor="theme-color">Brand color</label><p>{hex.toUpperCase()} · Used for accents and buttons</p></div><input name="color" type="hidden" value={hex} /></div>
+                    <fieldset className={classes.backgroundPicker}>
+                        <legend>Page background</legend>
+                        <p>Set the mood around your page. Your brand color stays yours.</p>
+                        <div className={classes.backgroundOptions}>
+                            {PAGE_BACKGROUNDS.map(background => (
+                                <label key={background.id} className={classes.backgroundOption}>
+                                    <input type="radio" name="pageBackground" value={background.id} checked={pageBackground === background.id} onChange={() => setPageBackground(background.id)} />
+                                    <span className={classes.backgroundSample} style={background.style} aria-hidden="true"><span style={{ borderTopColor: hex }} /><span className={classes.selectionMark}>✓</span></span>
+                                    <span className={classes.backgroundName}>{background.label}</span>
+                                    <span className={classes.backgroundDescription}>{background.description}</span>
+                                </label>
+                            ))}
+                        </div>
+                    </fieldset>
                     <div className={classes.logoUpload}>
                         <label htmlFor="business-logo">Business logo <span>Optional</span></label>
                         {user?.imageUrl && !image && (
@@ -215,6 +231,7 @@ const SettingsForm: React.FC<SettingsProps> = ({ mode, user }) => {
             </form>
             <aside className={classes.preview}>
                 <p className={classes.previewLabel}>A LITTLE PREVIEW</p>
+                <div className={classes.previewCanvas} style={getPageBackgroundStyle(pageBackground)} data-background={pageBackground}>
                 <div className={classes.previewCard}>
                     <div className={classes.previewAccent} style={{ backgroundColor: hex }} />
                     <div className={classes.previewBody}>
@@ -232,6 +249,7 @@ const SettingsForm: React.FC<SettingsProps> = ({ mode, user }) => {
                         <div className={classes.previewReview}><span aria-label="5 stars">★★★★★</span><p>“A kind word from a happy customer could live right here.”</p><small>Illustrative testimonial</small></div>
                     </div>
                     <div className={classes.previewUrl}>quickrating.page/{username || 'yourbusiness'}</div>
+                </div>
                 </div>
                 <p className={classes.previewNote}>Your brand. Their words.<br />One simple link to share.</p>
                 <Link href="/demo/review-page">Explore an example page ↗</Link>

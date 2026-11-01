@@ -1,3 +1,4 @@
+import type { PageBackground } from "@/lib/pageBackgrounds";
 import { Review } from "./review";
 
 export type Payment = {
@@ -28,6 +29,7 @@ export type User = {
     greeting?: string,
     customLink: string,
     themeColor?: string,
+    pageBackground?: PageBackground;
     imageUrl?: string,
     contact?: PageContact,
     createdAt?: Date,

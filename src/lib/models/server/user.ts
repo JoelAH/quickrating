@@ -1,5 +1,7 @@
+import type { PageBackground } from "@/lib/pageBackgrounds";
 import "server-only";
 import CONSTANTS from "@/lib/constants";
+import { PAGE_BACKGROUND_IDS } from "@/lib/pageBackgrounds";
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
@@ -20,6 +22,7 @@ export const UserSchema = new Schema({
   customLink: {type: String, required: true, trim: true, maxLength: 100, index: true},
   themeColor: {type: String, trim: true, maxLength: 50},
   imageUrl: {type: String, trim: true},
+  pageBackground: {type: String, enum: PAGE_BACKGROUND_IDS, default: 'classic'},
   contact: {
     address: {type: String},
     phone: {type: String},
@@ -51,6 +54,7 @@ export type User = {
     greeting?: string,
     customLink: string,
     themeColor?: string;
+    pageBackground?: PageBackground;
     imageUrl?: string,
     contact?: {
         address?: string
