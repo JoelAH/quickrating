@@ -26,7 +26,7 @@
     "fakefilter": "^0.1.935",
     "firebase": "^10.12.4",
     "firebase-admin": "^12.2.0",
-    "mongoose": "^8.5.2",
+    "mongoose": "^8.24.7",
     "next": "14.2.35",
     "react": "^18",
     "react-advanced-cropper": "^0.20.0",
